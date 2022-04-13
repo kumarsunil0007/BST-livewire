@@ -23,7 +23,8 @@
             @endif
             <form>
                 <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                    <label for="search" class="block text-gray-700 text-sm font-bold mb-2 text-center">Search Collection:</label>
+                    <label for="search" class="block text-gray-700 text-lg font-bold mb-2 text-center">Search
+                        Collection:</label>
                     <div class="flex justify-center">
                         <div class="mb-4">
                             <input type="search"
@@ -44,7 +45,8 @@
                     <div class="container px-4 py-2 mx-auto lg:pt-8 lg:px-20">
                         <div class="flex flex-wrap -m-1 md:-m-2">
                             @forelse ($images as $image)
-                                <a href="javascript:void(0)" wire:click="selectImage({{ $image['id'] }},'{{$image["title"]}}','{{$image["previewUrl"]}}','{{$image["thumbnailUrl"]}}')"
+                                <a href="javascript:void(0)"
+                                    wire:click="selectImage({{ $image['id'] }},'{{ $image['title'] }}','{{ $image['previewUrl'] }}','{{ $image['thumbnailUrl'] }}')"
                                     class="flex flex-wrap w-2/3 search-images">
                                     <div class="w-full p-1 md:p-2">
                                         <img alt="gallery"
@@ -62,14 +64,18 @@
                 <section class="overflow-hidden text-gray-700 ">
                     <div class="container px-4 py-2 mx-auto lg:pt-12 ">
                         <div class="flex flex-wrap -m-1 md:-m-2">
-                            
+
                             @forelse ($imageStocks as $image)
-                                <a href="javascript:void(0)" 
-                                    class="flex flex-wrap">
-                                    
+                                <a href="javascript:void(0)" class="flex flex-wrap">
+
                                     <div class="p-1 md:p-2 relative">
-                                        <div class="remove-image" style="position:absolute;right:10px;top:5px;padding:5px;" wire:click.prevent="removeImage({{ $image['image_id'] }},'{{$image["image_title"]}}','{{$image["image_preview_url"]}}','{{$image["image_thumbnail_url"]}}')">x</div>
-                                        <img alt="gallery" class="rounded" src="{{ $image['image_thumbnail_url'] }}" style="width: 70px; height:70px;">
+                                        <div class="remove-image"
+                                            style="position:absolute;right:10px;top:5px;padding:5px;"
+                                            wire:click.prevent="removeImage({{ $image['image_id'] }},'{{ $image['image_title'] }}','{{ $image['image_preview_url'] }}','{{ $image['image_thumbnail_url'] }}')">
+                                            x</div>
+                                        <img alt="gallery" class="rounded"
+                                            src="{{ $image['image_thumbnail_url'] }}"
+                                            style="width: 70px; height:70px;">
                                     </div>
                                 </a>
                             @empty
@@ -91,8 +97,8 @@
                             Cancel
                         </a>
                     </span>
-                    <div x-data="{ show: false }" x-init="setTimeout(() => show = false, 3000)"
-                        class="bg-green-200 text-black mr-4 px-2" style="display: none;">
+                    <div x-data="{ show: false }" x-init="setTimeout(() => show = false, 3000)" class="bg-green-200 text-black mr-4 px-2"
+                        style="display: none;">
                         {{ session('message') }}
                     </div>
                 </div>

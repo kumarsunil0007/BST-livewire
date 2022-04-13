@@ -52,7 +52,7 @@
                                     title="View"><i class="fa fa-eye"></i></a>
                                 @if (!$task->taskStatus)
                                     <button wire:click="start({{ $task->id }})"
-                                        class="bg-green-600 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">Start
+                                        class="bg-green-600 hover:bg-green-600 text-white font-bold py-1 px-4 rounded">Start
                                     </button>
                                 @endif
 

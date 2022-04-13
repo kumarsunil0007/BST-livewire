@@ -57,11 +57,12 @@
                                 <a href="{{ route('admin.viewTask', [$task->id]) }}"
                                     class="bg-purple hover:bg-green-600 text-white font-bold py-1 px-2 rounded"
                                     title="View"><i class="fa fa-eye"></i></a>
+
                                 <button wire:click="edit({{ $task->id }})"
-                                    class="bg-purple hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
+                                    class="bg-purple hover:bg-blue-700 text-white font-bold py-1 px-1 rounded"
                                     title="Edit"><i class="fa fa-edit"></i></button>
                                 <button wire:click="deleteId({{ $task->id }})"
-                                    class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
+                                    class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-1 rounded"
                                     title="Delete"><i class="fa fa-trash"></i></button>
                             </td>
                         </tr>
