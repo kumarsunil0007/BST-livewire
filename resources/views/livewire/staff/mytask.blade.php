@@ -31,6 +31,8 @@
                 <thead>
                     <tr class="bg-gray-100 text-left">
                         <th class="px-4 py-2 text-left">Task Name</th>
+                        <th class="px-4 py-2">No of images</th>
+                        <th class="px-4 py-2">Description</th>
                         <th class="px-4 py-2 text-left">Status</th>
                     </tr>
                 </thead>
@@ -38,6 +40,8 @@
                     @forelse ($my_tasks->tasks as $task)
                         <tr>
                             <td class="border px-4 py-2 task-name">{{ $task->name }}</td>
+                            <td class="border px-4 py-2">{{ $task->no_of_images }}</td>
+                            <td class="border px-4 py-2">{{ Str::limit($task->description, 50, '...') }}</td>
                             <td class="border px-4 py-2">
                                 @if ($task->pivot->is_completed == 1)
                                     <span>Completed</span>
@@ -48,9 +52,10 @@
                             </td>
                         </tr>
                     @empty
-                        <div>No result found.</div>
+                        <tr>
+                            <td colspan="2"><div>No result found.</div></td>
+                        </tr>
                     @endforelse
-
                 </tbody>
             </table>
         </div>

@@ -57,6 +57,7 @@
                     @endforeach
                 </tbody>
             </table>
+            <div class="my-4">{{ $staffs->links() }}</div>
         </div>
     </div>
 </div>

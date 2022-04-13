@@ -116,7 +116,8 @@ class StartTask extends Component
             UserTaskImage::insert($this->imageStocks);
 
             $staffTask = StaffTask::updateOrCreate(['user_id' => Auth::user()->id, 'task_id' => $this->task_id], [
-                'is_completed' => 1
+                'is_completed' => 1,
+                'source' => 'shutter stock',
             ]);
             if ($staffTask) {
                 session()->flash('success', 'Task completed.');

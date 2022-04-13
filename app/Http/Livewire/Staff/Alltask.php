@@ -8,10 +8,13 @@ use App\Models\Task;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Alltask extends Component
 {
-    public $tasks, $user_id, $task_id, $keyword;
+    use WithPagination;
+
+    public $user_id, $task_id, $keyword;
     public $isOpen = 0;
     public $images = [];
     public $ids = [];
@@ -20,6 +23,7 @@ class Alltask extends Component
     
     public function mount()
     {
+        $this->resetPage();
         $this->queryFields['query'] = $this->keyword;
         $this->queryFields['sort'] = 'popular';
         $this->queryFields['orientation'] = 'horizontal';
@@ -27,8 +31,7 @@ class Alltask extends Component
 
     public function render()
     {
-        $this->tasks = Task::with(['taskStatus'])->orderBy('id', 'DESC')->get();
-        return view('livewire.staff.alltask');
+        return view('livewire.staff.alltask', ['tasks' => Task::with(['taskStatus'])->orderBy('id', 'DESC')->paginate(20)]);
     }
 
     public function openModal()

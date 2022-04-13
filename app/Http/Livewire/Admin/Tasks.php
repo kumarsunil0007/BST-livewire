@@ -4,16 +4,24 @@ namespace App\Http\Livewire\Admin;
 
 use App\Models\Task;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Tasks extends Component
 {
-    public $tasks, $name, $no_of_images, $description, $task_id, $header;
+    use WithPagination;
+
+    public $name, $no_of_images, $description, $task_id, $deleteId, $header;
     public $isOpen = 0;
+    public $isDelete = 0;
+
+    public function mount()
+    {
+        $this->resetPage();
+    }
 
     public function render()
     {
-        $this->tasks = Task::orderBy('id', 'DESC')->get();
-        return view('livewire.admin.tasks');
+        return view('livewire.admin.tasks', ['tasks' => Task::orderBy('id', 'DESC')->paginate(20)]);
     }
 
     public function create()
@@ -31,6 +39,16 @@ class Tasks extends Component
     public function closeModal()
     {
         $this->isOpen = false;
+    }
+    
+    public function openDeleteModal()
+    {
+        $this->isDelete = true;
+    }
+
+    public function closeDeleteModal()
+    {
+        $this->isDelete = false;
     }
 
     private function resetInputFields()
@@ -95,6 +113,12 @@ class Tasks extends Component
         $this->openModal();
     }
 
+    public function deleteId($id)
+    {
+        $this->deleteId = $id;
+        $this->openDeleteModal();
+    }
+
     /**
      * The attributes that are mass assignable.
      *
@@ -103,6 +127,7 @@ class Tasks extends Component
     public function delete($id)
     {
         Task::find($id)->delete();
+        $this->closeDeleteModal();
         session()->flash('success', 'Task Deleted Successfully.');
     }
 }

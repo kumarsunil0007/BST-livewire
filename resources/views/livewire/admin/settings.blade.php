@@ -31,7 +31,8 @@
                     <div class="">
                         <div class="mb-4">
                             <label for="countries"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Link</label>
+                                class="block mb-2 font-medium text-gray-900 dark:text-gray-400 font-bold">Image
+                                Provider</label>
                             {{-- <div>
                                 <div class="form-check flex items-center">
                                     <input
@@ -56,12 +57,12 @@
 
                             <div>
                                 <div class="form-check flex items-center">
-                                    <input
+                                    <input wire:model="source_api" value="https://www.shutterstock.com"
                                         class="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 my-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
-                                        type="radio" name="source_api" wire:model="source_api" id="flexRadioDefault1"
-                                        value="https://www.shutterstock.com" {{ $selected_api == 'https://www.shutterstock.com' ? 'checked' : '' }}>
+                                        type="radio" name="source_api" id="flexRadioDefault1"
+                                        {{ $selected_api == 'https://www.shutterstock.com' ? 'checked' : '' }}>
                                     <label class="form-check-label inline-block text-gray-800" for="flexRadioDefault1">
-                                        Shutter Stock
+                                        Shutter Stock {{ $selected_api }}
                                     </label>
 
                                 </div>
@@ -69,7 +70,8 @@
                                     <input
                                         class="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 my-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
                                         type="radio" name="source_api" wire:model="source_api" id="flexRadioDefault2"
-                                        value="https://www.storyblocks.com" {{ $selected_api == 'https://www.storyblocks.com' ? 'checked' : '' }}>
+                                        value="https://www.storyblocks.com"
+                                        {{ $selected_api == 'https://www.storyblocks.com' ? 'checked' : '' }}>
                                     <label class="form-check-label inline-block text-gray-800" for="flexRadioDefault2">
                                         Story Blocks
                                     </label>

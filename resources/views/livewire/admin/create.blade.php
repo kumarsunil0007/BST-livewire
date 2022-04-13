@@ -13,6 +13,9 @@
         <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
           <div class="flex justify-between table-heading">
             <h4 class="flex justify-center items-center font-bold">{{$header}}</h4>
+            <button wire:click="closeModal()" type="button" class="">
+            X
+            </button>
           </div>
           <div class="py-3">
             <div class="mb-4">

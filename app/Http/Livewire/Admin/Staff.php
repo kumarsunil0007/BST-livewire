@@ -5,21 +5,24 @@ namespace App\Http\Livewire\Admin;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Staff extends Component
 {
-    public $staffs, $name, $email, $password, $phone, $staff_id, $header;
+    use WithPagination;
+
+    public $name, $email, $password, $phone, $staff_id, $header;
     public $isOpen = 0;
 
     public function mount()
     {
         $this->password = Hash::make(12345678);
+        $this->resetPage();
     }
     
     public function render()
     {
-        $this->staffs = User::role('staff')->orderBy('id', 'DESC')->get();
-        return view('livewire.admin.staff');
+        return view('livewire.admin.staff', ['staffs' => User::role('staff')->orderBy('id', 'DESC')->paginate(20)]);
     }
 
     public function create()
