@@ -27,7 +27,7 @@ class Alltask extends Component
 
     public function render()
     {
-        $this->tasks = Task::with(['taskStatus'])->get();
+        $this->tasks = Task::with(['taskStatus'])->orderBy('id', 'DESC')->get();
         return view('livewire.staff.alltask');
     }
 

@@ -18,7 +18,7 @@ class Staff extends Component
     
     public function render()
     {
-        $this->staffs = User::role('staff')->get();
+        $this->staffs = User::role('staff')->orderBy('id', 'DESC')->get();
         return view('livewire.admin.staff');
     }
 
@@ -70,7 +70,7 @@ class Staff extends Component
         }
 
         session()->flash(
-            'message',
+            'success',
             $this->staff_id ? 'Staff Updated Successfully.' : 'Staff Created Successfully.'
         );
 
@@ -92,6 +92,6 @@ class Staff extends Component
     public function delete($id)
     {
         User::find($id)->delete();
-        session()->flash('message', 'Staff Deleted Successfully.');
+        session()->flash('success', 'Staff Deleted Successfully.');
     }
 }

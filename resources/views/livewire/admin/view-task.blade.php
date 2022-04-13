@@ -17,7 +17,7 @@
                     <div class="w-full">
                         <input
                             class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                            id="inline-full-name" type="text" value="{{ $task->taskStatus->user->email }}">
+                            id="inline-full-name" type="text" value="{{ $task->taskStatus->user->email }}" readonly>
                     </div>
                 </div>
                 <div class="md:flex md:items-center mb-6">
@@ -30,7 +30,7 @@
                     <div class="w-full">
                         <input
                             class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                            id="inline-full-name" type="text" value="{{ ucwords($task->name) }}">
+                            id="inline-full-name" type="text" value="{{ ucwords($task->name) }}" readonly>
                     </div>
                 </div>
                 <div class="md:flex md:items-center mb-6">
@@ -43,7 +43,7 @@
                     <div class="w-full">
                         <textarea class="form-control block w-full px-3 py-1.5  text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                             id="exampleFormControlTextarea1" rows="3"
-                            placeholder="Your message">{{ ucfirst($task->description) }}</textarea>
+                            placeholder="Your message" readonly>{{ ucfirst($task->description) }}</textarea>
                     </div>
                 </div>
                 <div class="md:flex md:items-center mb-6">
@@ -56,7 +56,7 @@
                     <div class="w-full">
                         <input
                             class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                            id="inline-full-name" type="text" value="{{ $task->no_of_images }}">
+                            id="inline-full-name" type="text" value="{{ $task->no_of_images }}" readonly>
                     </div>
                 </div>
             </form>
