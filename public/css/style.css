@@ -22,3 +22,6 @@
 .table-heading h4 {
     font-size: 22px;
 }
+.search-images:focus img {
+    box-shadow: 0px 0px 4px 2px #ddd;
+}
