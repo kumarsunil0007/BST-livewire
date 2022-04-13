@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Livewire\Admin\Settings;
 use App\Http\Livewire\Admin\Tasks;
 use App\Http\Livewire\Admin\Staff;
+use App\Http\Livewire\Admin\ViewTask;
 use App\Http\Livewire\Staff\Alltask;
 use App\Http\Livewire\Staff\Mytask;
 use App\Models\Task;
@@ -51,6 +52,7 @@ Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified'])-
         })->name('dashboard');
         Route::get('tasks', Tasks::class)->name('task');
         Route::get('staff', Staff::class)->name('staff');
+        Route::get('view-task/{id}', ViewTask::class)->name('viewTask');
 
         Route::get('profile', App\Http\Livewire\Admin\Profile::class)->name('profile');
         Route::get('setting', Settings::class)->name('setting');
@@ -71,8 +73,8 @@ Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified'])-
     });
 
     Route::get('users', function(){
-        $userTask = User::where('id', Auth::user()->id)->first();
-        $userTask->load('tasks');
-        return $userTask;
+        $task = Task::find(3);
+        $taskImages = $task->load('taskImages', 'taskStatus.user');
+        return $taskImages;
     });
 });

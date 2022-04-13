@@ -21,4 +21,9 @@ class Task extends Model
         return $this->hasOne(StaffTask::class, 'task_id', 'id');
     }
 
+    public function taskImages()
+    {
+        return $this->hasMany(UserTaskImage::class, 'task_id', 'id');
+    }
+
 }

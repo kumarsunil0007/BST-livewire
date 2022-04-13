@@ -24,8 +24,7 @@
             <table class="table-fixed w-full">
                 <thead>
                     <tr class="bg-gray-100">
-                        <th class="px-4 py-2 w-20">No.</th>
-                        <th class="px-4 py-2">Name</th>
+                        <th class="px-4 py-2">Task Name</th>
                         <th class="px-4 py-2">No of images</th>
                         <th class="px-4 py-2">Description</th>
                         <th class="px-4 py-2">Action</th>
@@ -34,7 +33,6 @@
                 <tbody>
                     @foreach($tasks as $task)
                     <tr>
-                        <td class="border px-4 py-2">{{ $task->id }}</td>
                         <td class="border px-4 py-2">{{ $task->name }}</td>
                         <td class="border px-4 py-2">{{ $task->no_of_images }}</td>
                         <td class="border px-4 py-2">{{ $task->description }}</td>

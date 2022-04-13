@@ -23,7 +23,6 @@
             <table class="table-fixed w-full">
                 <thead>
                     <tr class="bg-gray-100">
-                        <th class="px-4 py-2 w-20">No.</th>
                         <th class="px-4 py-2 text-left">Task Name</th>
                         <th class="px-4 py-2 text-left">Action</th>
                     </tr>
@@ -31,7 +30,6 @@
                 <tbody>
                     @foreach ($tasks as $task)
                         <tr>
-                            <td class="border px-4 py-2">{{ $task->id }}</td>
                             <td class="border px-4 py-2 flex-1">{{ ucwords($task->name) }}</td>
                             <td class="border px-4 py-2">
                                 @if ($task->taskStatus)

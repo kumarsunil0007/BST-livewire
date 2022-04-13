@@ -72,4 +72,9 @@ class User extends Authenticatable
         return $this->hasMany(StaffTask::class, 'user_id', 'id');
     }
 
+    public function userImages()
+    {
+        return $this->hasMany(UserTaskImage::class, 'user_id', 'id');
+    }
+
 }

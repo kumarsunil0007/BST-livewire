@@ -11,12 +11,13 @@ use Livewire\Component;
 
 class StartTask extends Component
 {
-    public $task_id, $keyword;
+    public $task_id, $keyword, $multidimensional_diff;
     public $show = false;
     public $images = [];
     public $queryFields = [];
     public $imageIds = [];
     public $imageStocks = [];
+    public $removeImageStocks = [];
 
     public function mount($id)
     {
@@ -74,21 +75,28 @@ class StartTask extends Component
                 
     }
 
-    public function selectImage($imageId, $imageThumbnail)
+    public function selectImage($imageId, $title, $preview, $thumbnail)
     {
         $this->imageIds['user_id'] = Auth::user()->id;
         $this->imageIds['task_id'] = $this->task_id;
         $this->imageIds['image_id'] = $imageId;
-        $this->imageIds['image_thumbnail_url'] = $imageThumbnail;
+        $this->imageIds['image_title'] = $title;
+        $this->imageIds['image_preview_url'] = $preview;
+        $this->imageIds['image_thumbnail_url'] = $thumbnail;
         array_push($this->imageStocks, $this->imageIds);
     }
 
-    public function removeImage($imageId)
+    public function removeImage($imageId, $title, $preview, $thumbnail)
     {
         $this->imageIds['user_id'] = Auth::user()->id;
         $this->imageIds['task_id'] = $this->task_id;
         $this->imageIds['image_id'] = $imageId;
-        unset($this->imageStocks[$this->imageIds]);
+        $this->imageIds['image_title'] = $title;
+        $this->imageIds['image_preview_url'] = $preview;
+        $this->imageIds['image_thumbnail_url'] = $thumbnail;
+        array_push($this->removeImageStocks, $this->imageIds);
+        $diff = array_diff(array_map('serialize', $this->imageStocks), array_map('serialize', $this->removeImageStocks));
+        $this->imageStocks = array_map('unserialize', $diff);
     }
 
     public function store()
@@ -111,6 +119,7 @@ class StartTask extends Component
             ]);
             if ($staffTask) {
                 session()->flash('message', 'Task completed.');
+                return redirect()->route('staff.allTask');
             } else {
                 session()->flash('message', 'Server Error!.');
             }
