@@ -12,7 +12,7 @@ class Tasks extends Component
 
     public function render()
     {
-        $this->tasks = Task::all();
+        $this->tasks = Task::orderBy('id', 'DESC')->get();
         return view('livewire.admin.tasks');
     }
 

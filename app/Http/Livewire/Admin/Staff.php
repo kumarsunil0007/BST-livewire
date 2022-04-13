@@ -18,7 +18,7 @@ class Staff extends Component
     
     public function render()
     {
-        $this->staffs = User::role('staff')->get();
+        $this->staffs = User::role('staff')->orderBy('id', 'DESC')->get();
         return view('livewire.admin.staff');
     }
 
