@@ -23,24 +23,25 @@
             @endif
             <table class="table-fixed w-full">
                 <thead>
-                    <tr class="bg-gray-100">
+                    <tr class="bg-gray-100 text-left">
                         <th class="px-4 py-2 w-20">No.</th>
-                        <th class="px-4 py-2">Name</th>
+                        <th class="px-4 py-2 task-name">Name</th>
                         <th class="px-4 py-2">Email</th>
                         <th class="px-4 py-2">Phone</th>
-                        <th class="px-4 py-2">Action</th>
+                        <th class="px-4 py-2">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($staffs as $staff)
                     <tr>
                         <td class="border px-4 py-2">{{ $staff->id }}</td>
-                        <td class="border px-4 py-2">{{ $staff->name }}</td>
+                        <td class="border px-4 py-2 task-name">{{ $staff->name }}</td>
                         <td class="border px-4 py-2">{{ $staff->email }}</td>
                         <td class="border px-4 py-2">{{ $staff->phone }}</td>
                         <td class="border px-4 py-2">
-                        <button wire:click="edit({{ $staff->id }})" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Edit</button>
-                            <button wire:click="delete({{ $staff->id }})" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</button>
+                            
+                            <button wire:click="edit({{ $staff->id }})" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded" title="Edit"><i class="fa fa-edit"></i></button>
+                            <button wire:click="delete({{ $staff->id }})" class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded" title="Delete"><i class="fa fa-trash"></i></button>
                         </td>
                     </tr>
                     @endforeach

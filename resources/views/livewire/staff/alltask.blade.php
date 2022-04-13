@@ -22,9 +22,9 @@
             @endif
             <table class="table-fixed w-full">
                 <thead>
-                    <tr class="bg-gray-100">
+                    <tr class="bg-gray-100 text-left">
                         <th class="px-4 py-2 w-20">No.</th>
-                        <th class="px-4 py-2 text-left">Task Name</th>
+                        <th class="px-4 py-2 text-left task-name">Task Name</th>
                         <th class="px-4 py-2 text-left">Action</th>
                     </tr>
                 </thead>
