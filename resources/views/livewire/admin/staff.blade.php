@@ -24,19 +24,18 @@
             <table class="table-fixed w-full">
                 <thead>
                     <tr class="bg-gray-100 text-left">
-                        <th class="px-4 py-2 w-20">No.</th>
-                        <th class="px-4 py-2 task-name">Name</th>
+                        <th class="px-4 py-2 ">Name</th>
                         <th class="px-4 py-2">Email</th>
                         <th class="px-4 py-2">Phone</th>
                         <th class="px-4 py-2">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
+
                     @foreach($staffs as $staff)
                     <tr>
-                        <td class="border px-4 py-2">{{ $staff->id }}</td>
                         <td class="border px-4 py-2 task-name">{{ $staff->name }}</td>
-                        <td class="border px-4 py-2">{{ $staff->email }}</td>
+                        <td class="border px-4 py-2  ">{{ $staff->email }}</td>
                         <td class="border px-4 py-2">{{ $staff->phone }}</td>
                         <td class="border px-4 py-2">
                             

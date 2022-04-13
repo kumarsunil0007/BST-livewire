@@ -20,25 +20,16 @@
             <table class="table-fixed w-full">
                 <thead>
                     <tr class="bg-gray-100 text-left">
-                        <th class="px-4 py-2 w-20 text-left">No.</th>
-                        <th class="px-4 py-2 text-left task-name">Task Name</th>
+                        <th class="px-4 py-2 text-left">Task Name</th>
                         <th class="px-4 py-2 text-left">Status</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @php
-                        $x = 0;
-                    @endphp
-                    @forelse ($my_tasks->tasks as $task)
-                    @php
-                        $x++;
-                    @endphp
                         <tr>
-                            <td class="border px-4 py-2">{{ $x }}</td>
                             <td class="border px-4 py-2 task-name">{{ $task->name }}</td>
                             <td class="border px-4 py-2">
                                 @if ($task->pivot->is_completed == 1)
-                                    <span>Complete</span>
+                                    <span>Completed</span>
                                 @else
                                     <a href="{{route('staff.start.task', [$task->id])}}" class="py-2 rounded">Continue</a>
                                 @endif

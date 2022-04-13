@@ -34,7 +34,7 @@
                     <div class="container px-5 py-2 mx-auto lg:pt-12 lg:px-32">
                         <div class="flex flex-wrap -m-1 md:-m-2">
                             @forelse ($images as $image)
-                                <a href="javascript:void(0)" wire:click="selectImage({{ $image['id'] }},'{{$image["thumbnailUrl"]}}')"
+                                <a href="javascript:void(0)" wire:click="selectImage({{ $image['id'] }},'{{$image["title"]}}','{{$image["previewUrl"]}}','{{$image["thumbnailUrl"]}}')"
                                     class="flex flex-wrap w-1/3">
                                     <div class="w-full p-1 md:p-2">
                                         <img alt="gallery"
@@ -56,7 +56,7 @@
                                 <a href="javascript:void(0)" 
                                     class="flex flex-wrap">
                                     <div class="p-1 md:p-2 relative">
-                                        <span style="position:absolute;right:10px;top:5px;">x</span>
+                                        <div style="position:absolute;right:10px;top:5px;padding:5px;" wire:click.prevent="removeImage({{ $image['image_id'] }},'{{$image["image_title"]}}','{{$image["image_preview_url"]}}','{{$image["image_thumbnail_url"]}}')">x</div>
                                         <img alt="gallery" class="rounded" src="{{ $image['image_thumbnail_url'] }}" style="width: 70px; height:70px;">
                                     </div>
                                 </a>
