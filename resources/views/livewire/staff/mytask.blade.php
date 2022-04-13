@@ -7,7 +7,7 @@
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg px-4 py-4">
             @if (session()->has('success'))
-                <div class="bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md my-3"
+                <div class="bg-purple border-t-4 border-teal-500 rounded-b text-white px-4 py-3 shadow-md my-3"
                     role="alert">
                     <div class="flex">
                         <div>
@@ -26,7 +26,10 @@
                     </div>
                 </div>
             @endif
-
+            <div class="flex justify-between table-heading my-3">
+                <h4 class="flex justify-center items-center font-bold">My Tasks</h4>
+                
+            </div>
             <table class="table-fixed w-full">
                 <thead>
                     <tr class="bg-gray-100 text-left">
@@ -40,10 +43,10 @@
                             <td class="border px-4 py-2 task-name">{{ $task->name }}</td>
                             <td class="border px-4 py-2">
                                 @if ($task->pivot->is_completed == 1)
-                                    <span class=" py-2 rounded bg-green-600 hover:bg-green-600 text-white font-bold px-4 ">Completed</span>
+                                    <span class="w-20 py-2 rounded bg-gray-500 hover:bg-green-600 text-white font-bold px-4 ">Completed</span>
                                 @else
                                     <a href="{{ route('staff.start.task', [$task->id]) }}"
-                                        class=" py-2 rounded bg-green-600 hover:bg-green-600 text-white font-bold px-4 ">Continue</a>
+                                        class="w-20 py-2 rounded bg-purple hover:bg-green-600 text-white font-bold px-4 ">Continue</a>
                                 @endif
                             </td>
                         </tr>

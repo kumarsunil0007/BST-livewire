@@ -8,7 +8,7 @@ use Livewire\Component;
 
 class Staff extends Component
 {
-    public $staffs, $name, $email, $password, $phone, $staff_id;
+    public $staffs, $name, $email, $password, $phone, $staff_id, $header;
     public $isOpen = 0;
 
     public function mount()
@@ -25,6 +25,7 @@ class Staff extends Component
     public function create()
     {
         $this->resetInputFields();
+        $this->header = 'Add New Staff';
         $this->openModal();
     }
 
@@ -80,6 +81,7 @@ class Staff extends Component
 
     public function edit($id)
     {
+        $this->header = 'Edit Staff';
         $staff = User::findOrFail($id);
         $this->staff_id = $id;
         $this->name = $staff->name;

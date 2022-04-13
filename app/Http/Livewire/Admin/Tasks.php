@@ -7,7 +7,7 @@ use Livewire\Component;
 
 class Tasks extends Component
 {
-    public $tasks, $name, $no_of_images, $description, $task_id;
+    public $tasks, $name, $no_of_images, $description, $task_id, $header;
     public $isOpen = 0;
 
     public function render()
@@ -19,6 +19,7 @@ class Tasks extends Component
     public function create()
     {
         $this->resetInputFields();
+        $this->header = 'Create New Task';
         $this->openModal();
     }
 
@@ -84,6 +85,7 @@ class Tasks extends Component
      */
     public function edit($id)
     {
+        $this->header = 'Edit Task';
         $task = Task::findOrFail($id);
         $this->task_id = $id;
         $this->name = $task->name;
