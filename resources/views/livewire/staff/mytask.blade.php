@@ -29,7 +29,7 @@
 
             <table class="table-fixed w-full">
                 <thead>
-                    <tr class="bg-gray-100">
+                    <tr class="bg-gray-100 text-left">
                         <th class="px-4 py-2 text-left">Task Name</th>
                         <th class="px-4 py-2 text-left">Status</th>
                     </tr>
@@ -37,7 +37,7 @@
                 <tbody>
                     @forelse ($my_tasks->tasks as $task)
                         <tr>
-                            <td class="border px-4 py-2">{{ $task->name }}</td>
+                            <td class="border px-4 py-2 task-name">{{ $task->name }}</td>
                             <td class="border px-4 py-2">
                                 @if ($task->pivot->is_completed == 1)
                                     <span>Completed</span>

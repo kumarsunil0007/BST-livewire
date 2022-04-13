@@ -9,9 +9,12 @@
     <span class="hidden sm:inline-block sm:align-middle sm:h-screen"></span>​
   
     <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full" role="dialog" aria-modal="true" aria-labelledby="modal-headline">
-      <form>
+      <form class="add-staff-modal">
       <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-        <div class="">
+        <div class="flex justify-between table-heading">
+            <h4 class="flex justify-center items-center font-bold">Add New Staff</h4>
+          </div>
+        <div class="py-3">
               <div class="mb-4">
                   <label for="exampleFormControlInput1" class="block text-gray-700 text-sm font-bold mb-2">Name:</label>
                   <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="exampleFormControlInput1" placeholder="Enter Name" wire:model="name">

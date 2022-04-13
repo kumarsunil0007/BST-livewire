@@ -26,7 +26,8 @@
                     </div>
                 </div>
             @endif
-            <div class="flex justify-end">
+            <div class="flex justify-between table-heading">
+                <h4 class="flex justify-center items-center font-bold">All Tasks</h4>
                 <button wire:click="create()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-3">Add Task</button>
             </div>
             @if($isOpen)
@@ -34,22 +35,23 @@
             @endif
             <table class="table-fixed w-full">
                 <thead>
-                    <tr class="bg-gray-100">
-                        <th class="px-4 py-2">Task Name</th>
+                    <tr class="bg-gray-100 text-left">
+                        <th class="px-4 py-2 ">Task Name</th>
                         <th class="px-4 py-2">No of images</th>
                         <th class="px-4 py-2">Description</th>
-                        <th class="px-4 py-2">Action</th>
+                        <th class="px-4 py-2">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($tasks as $task)
                     <tr>
-                        <td class="border px-4 py-2">{{ $task->name }}</td>
+                        <td class="border px-4 py-2 task-name">{{ $task->name }}</td>
                         <td class="border px-4 py-2">{{ $task->no_of_images }}</td>
                         <td class="border px-4 py-2">{{ $task->description }}</td>
                         <td class="border px-4 py-2">
-                        <button wire:click="edit({{ $task->id }})" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Edit</button>
-                            <button wire:click="delete({{ $task->id }})" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</button>
+                            <a href="{{route('admin.viewTask', [$task->id])}}" class="bg-green-600 hover:bg-green-600 text-white font-bold py-1 px-2 rounded" title="View"><i class="fa fa-eye" ></i></a>
+                            <button wire:click="edit({{ $task->id }})" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded" title="Edit"><i class="fa fa-edit" ></i></button>
+                            <button wire:click="delete({{ $task->id }})" class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded" title="Delete"><i class="fa fa-trash" ></i></button>
                         </td>
                     </tr>
                     @endforeach

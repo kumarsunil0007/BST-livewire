@@ -30,10 +30,14 @@
             @if ($isOpen)
                 @include('livewire.staff.start')
             @endif
+            <div class="flex justify-between table-heading">
+                <h4 class="flex justify-center items-center font-bold">All Tasks</h4>
+                
+            </div>
             <table class="table-fixed w-full">
                 <thead>
-                    <tr class="bg-gray-100">
-                        <th class="px-4 py-2 text-left">Task Name</th>
+                    <tr class="bg-gray-100 text-left">
+                        <th class="px-4 py-2 text-left task-name">Task Name</th>
                         <th class="px-4 py-2 text-left">Action</th>
                     </tr>
                 </thead>
@@ -44,10 +48,10 @@
                             <td class="border px-4 py-2">
                                 @if ($task->taskStatus)
                                     @if ($task->taskStatus->task_id == $task->id && $task->taskStatus->user_id == Auth::user()->id)
-                                        <button wire:click="start({{ $task->id }})" class="bg-gray-400 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded" disabled>Start</button>
+                                        <button wire:click="start({{ $task->id }})" class="bg-gray-400 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded" disabled>Started</button>
                                     @endif
                                 @else
-                                <button wire:click="start({{ $task->id }})" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Start</button>
+                                <button wire:click="start({{ $task->id }})" class="bg-green-600 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">Start</button>
                                 @endif
                             </td>
                         </tr>
