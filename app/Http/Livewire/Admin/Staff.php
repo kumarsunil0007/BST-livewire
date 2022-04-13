@@ -13,6 +13,7 @@ class Staff extends Component
 
     public $name, $email, $password, $phone, $staff_id, $header;
     public $isOpen = 0;
+    public $isDelete = 0;
 
     public function mount()
     {
@@ -40,6 +41,16 @@ class Staff extends Component
     public function closeModal()
     {
         $this->isOpen = false;
+    }
+
+    public function openDeleteModal()
+    {
+        $this->isDelete = true;
+    }
+
+    public function closeDeleteModal()
+    {
+        $this->isDelete = false;
     }
 
     private function resetInputFields()
@@ -94,9 +105,17 @@ class Staff extends Component
         $this->openModal();
     }
 
+    public function deleteId($id)
+    {
+        $this->deleteId = $id;
+        $this->openDeleteModal();
+    }
+
     public function delete($id)
     {
-        User::find($id)->delete();
+        $staff = User::find($id)->delete();
+        $staff->tasks()->delete();
+        $this->closeDeleteModal();
         session()->flash('success', 'Staff Deleted Successfully.');
     }
 }

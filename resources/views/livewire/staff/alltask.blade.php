@@ -7,7 +7,7 @@
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg px-4 py-4">
             @if (session()->has('success'))
-                <div class="bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md my-3"
+                <div class="bg-purple border-t-4 border-teal-500 rounded-b text-white px-4 py-3 shadow-md my-3"
                     role="alert">
                     <div class="flex">
                         <div>
@@ -30,7 +30,7 @@
             @if ($isOpen)
                 @include('livewire.staff.start')
             @endif
-            <div class="flex justify-between table-heading">
+            <div class="flex justify-between table-heading my-3">
                 <h4 class="flex justify-center items-center font-bold">All Tasks</h4>
             </div>
             <table class="table-fixed w-full">
@@ -50,15 +50,23 @@
                             <td class="border px-4 py-2">{{ Str::limit($task->description, 50, '...') }}</td>
                             <td class="border px-4 py-2">
                                 @if ($task->taskStatus)
-                                    @if ($task->taskStatus->task_id == $task->id && $task->taskStatus->user_id == Auth::user()->id && $task->taskStatus->is_completed == 0)                 
-                                        <button class="bg-gray-400 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded" disabled>In progress</button>                                    
+                                    @if ($task->taskStatus->task_id == $task->id && $task->taskStatus->user_id == Auth::user()->id && $task->taskStatus->is_completed == 0)
+                                        <button
+                                            class="bg-gray-400 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+                                            disabled>In progress</button>
                                     @elseif($task->taskStatus->task_id == $task->id && $task->taskStatus->user_id == Auth::user()->id && $task->taskStatus->is_completed == 1)
-                                        <button class="bg-gray-400 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded" disabled>Completed</button>
+                                        <button
+                                            class="bg-gray-400 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+                                            disabled>Completed</button>
                                     @else
-                                        <button class="bg-gray-400 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded" disabled>Completed</button>
+                                        <button
+                                            class="bg-gray-400 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+                                            disabled>Completed</button>
                                     @endif
                                 @else
-                                    <button wire:click="start({{ $task->id }})" class="bg-green-600 hover:bg-green-600 text-white font-bold py-2 px-4 rounded" {{Auth::user()->currentTask() ? 'disabled' : ''}}>Start </button>
+                                    <button wire:click="start({{ $task->id }})"
+                                        class="bg-green-600 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">Start
+                                    </button>
                                 @endif
                             </td>
                         </tr>
