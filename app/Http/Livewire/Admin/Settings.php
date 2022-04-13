@@ -26,7 +26,7 @@ class Settings extends Component
         Setting::updateOrCreate(['id'=>1],['source_api' => $this->source_api]);
         
         session()->flash(
-            'message',
+            'success',
             'Data Saved.'
         );
 

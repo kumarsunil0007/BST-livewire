@@ -67,7 +67,7 @@ class Tasks extends Component
         }
 
         session()->flash(
-            'message',
+            'success',
             $this->task_id ? 'Task Updated Successfully.' : 'Task Created Successfully.'
         );
 
@@ -101,6 +101,6 @@ class Tasks extends Component
     public function delete($id)
     {
         Task::find($id)->delete();
-        session()->flash('message', 'Task Deleted Successfully.');
+        session()->flash('success', 'Task Deleted Successfully.');
     }
 }
