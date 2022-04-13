@@ -12,7 +12,12 @@
       <form class="add-task-modal">
         <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
           <div class="flex justify-between table-heading">
-            <h4 class="flex justify-center items-center font-bold">Add New Task</h4>
+            <h4 class="flex justify-center items-center font-bold">Add Task</h4>
+            <span class="mt-3 flex w-full rounded-md shadow-sm sm:mt-0 sm:w-auto">            
+            <button wire:click="closeModal()" type="button" class="inline-flex justify-center w-full px-4 py-2 bg-white text-base leading-6 font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5">
+            X
+            </button>
+          </span>
           </div>
           <div class="py-3">
             <div class="mb-4">
@@ -38,11 +43,7 @@
               Save
             </button>
           </span>
-          <span class="mt-3 flex w-full rounded-md shadow-sm sm:mt-0 sm:w-auto">            
-            <button wire:click="closeModal()" type="button" class="inline-flex justify-center w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-base leading-6 font-medium text-gray-700 shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5">
-            Cancel
-            </button>
-          </span>
+          
         </div>
       </form> 
     </div>

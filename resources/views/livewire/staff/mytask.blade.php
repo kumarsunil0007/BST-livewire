@@ -40,10 +40,10 @@
                             <td class="border px-4 py-2 task-name">{{ $task->name }}</td>
                             <td class="border px-4 py-2">
                                 @if ($task->pivot->is_completed == 1)
-                                    <span>Completed</span>
+                                    <span class=" py-2 rounded bg-green-600 hover:bg-green-600 text-white font-bold px-4 ">Completed</span>
                                 @else
                                     <a href="{{ route('staff.start.task', [$task->id]) }}"
-                                        class="py-2 rounded">Continue</a>
+                                        class=" py-2 rounded bg-green-600 hover:bg-green-600 text-white font-bold px-4 ">Continue</a>
                                 @endif
                             </td>
                         </tr>
