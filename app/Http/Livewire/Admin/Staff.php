@@ -20,7 +20,7 @@ class Staff extends Component
         $this->password = Hash::make(12345678);
         $this->resetPage();
     }
-    
+
     public function render()
     {
         return view('livewire.admin.staff', ['staffs' => User::role('staff')->orderBy('id', 'DESC')->paginate(20)]);
@@ -113,8 +113,9 @@ class Staff extends Component
 
     public function delete($id)
     {
-        $staff = User::find($id)->delete();
+        $staff = User::find($id);
         $staff->tasks()->delete();
+        $staff->delete();
         $this->closeDeleteModal();
         session()->flash('success', 'Staff Deleted Successfully.');
     }
