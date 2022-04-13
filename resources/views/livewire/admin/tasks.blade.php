@@ -47,7 +47,7 @@
                     <tr>
                         <td class="border px-4 py-2 task-name">{{ $task->name }}</td>
                         <td class="border px-4 py-2">{{ $task->no_of_images }}</td>
-                        <td class="border px-4 py-2">{{ $task->description }}</td>
+                        <td class="border px-4 py-2">{{ Str::limit($task->description,50, '...') }}</td>
                         <td class="border px-4 py-2">
                             <a href="{{route('admin.viewTask', [$task->id])}}" class="bg-green-600 hover:bg-green-600 text-white font-bold py-1 px-2 rounded" title="View"><i class="fa fa-eye" ></i></a>
                             <button wire:click="edit({{ $task->id }})" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded" title="Edit"><i class="fa fa-edit" ></i></button>

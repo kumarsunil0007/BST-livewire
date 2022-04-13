@@ -6,7 +6,8 @@
 <div class="py-12">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg px-4 py-4">
-            <form class="w-full max-w-sm">
+            @if ($task->taskStatus)
+                <form class="w-full max-w-sm">
                 <div class="md:flex md:items-center mb-6">
                     <div class="w-full">
                         <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4"
@@ -66,7 +67,6 @@
                     <div class="flex flex-wrap -m-1 md:-m-2">
                         @forelse ($task->taskImages as $image)
                             <a href="javascript:void(0)"
-                                wire:click="selectImage({{ $image['id'] }},'{{ $image['title'] }}','{{ $image['previewUrl'] }}','{{ $image['thumbnailUrl'] }}')"
                                 class="flex flex-wrap w-1/3">
                                 <div class="w-full p-1 md:p-2">
                                     <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
@@ -79,6 +79,10 @@
                     </div>
                 </div>
             </section>
+            @else
+                <div>This task is yet to be started.</div>
+            @endif
+            
         </div>
     </div>
 </div>
