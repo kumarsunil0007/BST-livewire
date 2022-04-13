@@ -84,6 +84,7 @@ class StartTask extends Component
         $this->imageIds['image_preview_url'] = $preview;
         $this->imageIds['image_thumbnail_url'] = $thumbnail;
         array_push($this->imageStocks, $this->imageIds);
+        $this->imageStocks = array_map("unserialize", array_unique(array_map("serialize", $this->imageStocks)));
     }
 
     public function removeImage($imageId, $title, $preview, $thumbnail)
@@ -94,8 +95,8 @@ class StartTask extends Component
         $this->imageIds['image_title'] = $title;
         $this->imageIds['image_preview_url'] = $preview;
         $this->imageIds['image_thumbnail_url'] = $thumbnail;
-        array_push($this->removeImageStocks, $this->imageIds);
-        $diff = array_diff(array_map('serialize', $this->imageStocks), array_map('serialize', $this->removeImageStocks));
+        // array_push($this->removeImageStocks, $this->imageIds);
+        $diff = array_diff(array_map('serialize', $this->imageStocks), array_map('serialize', [$this->imageIds]));
         $this->imageStocks = array_map('unserialize', $diff);
     }
 
@@ -105,12 +106,12 @@ class StartTask extends Component
         
         if (count($this->imageStocks) <= 0) {
             $this->show = true;
-            session()->flash('message', 'Please select images');
+            session()->flash('error', 'Please select images');
             // return false;
         } else if (count($this->imageStocks) < $task->no_of_images) {
-            session()->flash('message', 'Please select more images');
+            session()->flash('error', 'Please select more images');
         } else if(count($this->imageStocks) > $task->no_of_images) {
-            session()->flash('message', 'You have exceed the limit of assigned images');
+            session()->flash('error', 'You have exceed the limit of assigned images');
         } else if (count($this->imageStocks) == $task->no_of_images) {
             UserTaskImage::insert($this->imageStocks);
 
@@ -118,10 +119,10 @@ class StartTask extends Component
                 'is_completed' => 1
             ]);
             if ($staffTask) {
-                session()->flash('message', 'Task completed.');
+                session()->flash('success', 'Task completed.');
                 return redirect()->route('staff.allTask');
             } else {
-                session()->flash('message', 'Server Error!.');
+                session()->flash('error', 'Server Error!.');
             }
         }
     }
