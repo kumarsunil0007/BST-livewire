@@ -6,11 +6,17 @@ use App\Models\Setting;
 use App\Models\StaffTask;
 use App\Models\Task;
 use App\Models\UserTaskImage;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Livewire\WithPagination;
 
 class StartTask extends Component
 {
+    use WithPagination;
+
     public $task_id, $keyword, $multidimensional_diff;
     public $show = false;
     public $images = [];
@@ -28,7 +34,8 @@ class StartTask extends Component
 
     public function render()
     {
-        return view('livewire.staff.start-task');
+        $task = Task::find($this->task_id);
+        return view('livewire.staff.start-task', ['task' => $task]);
     }
 
     public function searchImage()
@@ -69,11 +76,18 @@ class StartTask extends Component
                 ];
             }
             $this->images = $images;
-        } else {
-            # code...
+        } else if($url->source_api == 'https://www.storyblocks.com') {
+            // 
         }
                 
     }
+
+    // public function paginate($items, $perPage = 5, $page = null, $options = [])
+    // {
+    //     $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
+    //     $items = $items instanceof Collection ? $items : Collection::make($items);
+    //     return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
+    // }
 
     public function selectImage($imageId, $title, $preview, $thumbnail)
     {

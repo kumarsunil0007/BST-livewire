@@ -38,7 +38,7 @@
                 <thead>
                     <tr class="bg-gray-100 text-left">
                         <th class="px-4 py-2 ">Task Name</th>
-                        <th class="px-4 py-2">No of images</th>
+                        <th class="px-4 py-2">No. of images</th>
                         <th class="px-4 py-2">Description</th>
                         <th class="px-4 py-2">Status</th>
                         <th class="px-4 py-2">Actions</th>
