@@ -96,17 +96,11 @@ class StartTask extends Component
                 ];
             }
             $this->images = $images;
-
-
-            // $this->images = $decodedResponse->data;
-            // $this->previousPageUrl = Arr::get($response, 'pagination.prev_url');
-            // $this->nextPageUrl = Arr::get($response, 'pagination.prev_url');
         } else if ($setting->source_api == 'https://www.storyblocks.com') {
             $privateKey = env('STORYBLOCK_PRIVATE_KEY');
             $publicKey = env('STORYBLOCK_PUBLIC_KEY');
             $projectId = env('PROJECT_ID');
             $userId = env('USER_ID');
-            // dd($privateKey);
             $expires = time() + 100;
 
             $this->queryFields['APIKEY'] = $this->publicKey;
@@ -141,7 +135,6 @@ class StartTask extends Component
             }
 
             $this->images = $images;
-            // return json_decode($response, true);
         }
     }
 
@@ -169,7 +162,6 @@ class StartTask extends Component
 
 
         $hmac = hash_hmac("sha256", $resource, $privateKey . $expire);
-        // dd($privateKey);
         return $hmac;
     }
 
@@ -193,7 +185,6 @@ class StartTask extends Component
         $this->imageIds['image_title'] = $title;
         $this->imageIds['image_preview_url'] = $preview;
         $this->imageIds['image_thumbnail_url'] = $thumbnail;
-        // array_push($this->removeImageStocks, $this->imageIds);
         $diff = array_diff(array_map('serialize', $this->imageStocks), array_map('serialize', [$this->imageIds]));
         $this->imageStocks = array_map('unserialize', $diff);
     }

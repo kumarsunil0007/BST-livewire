@@ -1,7 +1,4 @@
 <x-slot name="header">
-    {{-- <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-        Staff
-    </h2> --}}
 </x-slot>
 <div class="">
     <nav class="flex py-3 px-5 text-gray-700 bg-dark-blue" aria-label="Breadcrumb">
@@ -73,7 +70,6 @@
                     </tr>
                 </thead>
                 <tbody>
-
                     @foreach ($tasks as $task)
                         <tr>
                             <td class="border px-4 py-2 task-name text-gray-500 text-sm">{{ $task->name }}</td>

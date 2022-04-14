@@ -41,7 +41,7 @@ class Tasks extends Component
     {
         $this->isOpen = false;
     }
-
+    
     public function openDeleteModal()
     {
         $this->isDelete = true;
