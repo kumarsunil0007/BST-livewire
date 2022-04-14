@@ -46,9 +46,11 @@ class Alltask extends Component
 
     public function start($id)
     {
+        $setting = Setting::first();
+
         $staffTask = StaffTask::updateOrCreate(['user_id'=>Auth::user()->id, 'task_id' => $id],[
             'is_completed' => 0,
-            'source' => 'shutter stock',
+            'source' => $setting->source_name,
         ]);
         return redirect()->route('staff.start.task', $id);
     }

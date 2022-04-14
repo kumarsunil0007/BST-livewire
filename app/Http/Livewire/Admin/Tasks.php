@@ -33,6 +33,7 @@ class Tasks extends Component
 
     public function openModal()
     {
+
         $this->isOpen = true;
     }
 

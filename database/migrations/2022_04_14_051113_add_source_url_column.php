@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('settings', function (Blueprint $table) {
-            //
+            $table->string('source_url')->nullable()->after('source_api');
         });
     }
 
@@ -26,7 +26,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('settings', function (Blueprint $table) {
-            //
+            $table->dropColumn('source_url');
         });
     }
 };

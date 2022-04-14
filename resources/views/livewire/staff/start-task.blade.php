@@ -1,9 +1,9 @@
 <div class="">
-<nav class="flex py-3 px-5 text-gray-700 bg-dark-blue" aria-label="Breadcrumb">
+    <nav class="flex py-3 px-5 text-gray-700 bg-dark-blue" aria-label="Breadcrumb">
         <div class="container mx-auto">
             <ol class="inline-flex items-center space-x-1 md:space-x-3">
                 <li class="inline-flex items-center">
-                    <a href="#" class="inline-flex items-center text-sm font-medium text-white hover:text-white">
+                    <div class="inline-flex items-center text-sm font-medium text-white hover:text-white">
                         <svg class="mr-2 w-4 h-4" fill="currentColor" viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -11,7 +11,7 @@
                             </path>
                         </svg>
                         Home
-                    </a>
+                    </div>
                 </li>
                 <li>
                     <div class="flex items-center">
@@ -21,7 +21,7 @@
                                 d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
                                 clip-rule="evenodd"></path>
                         </svg>
-                        <a href="#" class="ml-1 text-sm font-medium text-white">My Task</a>
+                        <div class="ml-1 text-sm font-medium text-white">My Task</div>
                     </div>
                 </li>
                 <li>
@@ -45,7 +45,8 @@
                     class="bg-dark-blue hover:bg-blue-700 text-white font-medium py-2 px-4 text-sm rounded my-3">Back</a>
             </div>
             <div class="flex justify-between table-heading">
-                <h5 class="flex justify-start items-start text-lg font-bold text-gray-700 bg-gray-100 py-2 w-full px-3">Task Details</h5>
+                <h5 class="flex justify-start items-start text-lg font-bold text-gray-700 bg-gray-100 py-2 w-full px-3">
+                    Task Details</h5>
             </div>
             <hr>
             @if (session()->has('success'))
@@ -70,38 +71,45 @@
             @endif
             <div class="md:flex md:items-center mb-4 mt-4">
                 <div class="md:w-1/2 px-3 mb-6 md:mb-0">
-                    <label class="block text-gray-500 font-medium md:text-left text-sm mb-1 md:mb-3 pr-4">Task Name : <strong>{{ ucwords($task->name) }}</strong>  </label>
+                    <label class="block text-gray-500 font-medium md:text-left text-sm mb-1 md:mb-3 pr-4">Task Name :
+                        <strong>{{ ucwords($task->name) }}</strong> </label>
                 </div>
 
                 <div class="md:w-1/2 px-3 mb-6 md:mb-0">
-                    <label class="block text-gray-500 font-medium md:text-left text-sm mb-1 md:mb-3 pr-4">No. of images : <strong>{{ ucwords($task->no_of_images) }}</strong>
-                    </label>                  
+                    <label class="block text-gray-500 font-medium md:text-left text-sm mb-1 md:mb-3 pr-4">No. of images
+                        : <strong>{{ ucwords($task->no_of_images) }}</strong>
+                    </label>
                 </div>
                 <div class="md:w-1/2 px-3 mb-6 md:mb-0">
                     <label class="block text-gray-500 font-medium md:text-left text-sm mb-1 md:mb-3 pr-4"
-                        for="inline-full-name">Status : <span class="inline-flex items-center justify-center px-2 py-1 text-sm font-medium leading-none text-white bg-dark-blue rounded-full">{{ $task->taskStatus->is_completed == 0 ? 'In progress' : 'Completed' }}</span></label>
+                        for="inline-full-name">Status : <span
+                            class="inline-flex items-center justify-center px-2 py-1 text-sm font-medium leading-none text-white bg-dark-blue rounded-full">{{ $task->taskStatus->is_completed == 0 ? 'In progress' : 'Completed' }}</span></label>
                 </div>
                 <div class="md:w-1/2 px-3 mb-6 md:mb-0">
-                    <label class="block text-gray-500 font-medium md:text-left text-sm mb-1 md:mb-3 pr-4">Image Provider : <strong>{{ $task->taskStatus ? ucwords($task->taskStatus->source) : 'N/A' }}</strong>
+                    <label class="block text-gray-500 font-medium md:text-left text-sm mb-1 md:mb-3 pr-4">Image Provider
+                        : <strong>{{ $task->taskStatus ? ucwords($task->taskStatus->source) : 'N/A' }}</strong>
                     </label>
-                    
+
 
                 </div>
             </div>
             <div class="md:flex md:items-center mb-4">
 
                 <div class="w-full px-3 mb-6 md:mb-0">
-                    <label class="block text-gray-500 font-medium md:text-left text-sm mb-1 md:mb-3 pr-4">Description : <strong>{{ ucwords($task->description) }}</strong>
-                    </label>              
+                    <label class="block text-gray-500 font-medium md:text-left text-sm mb-1 md:mb-3 pr-4">Description :
+                        <strong>{{ ucwords($task->description) }}</strong>
+                    </label>
                 </div>
             </div>
-        
+
             <form>
                 <div x-data="{ open: false }">
                     <div class="bg-white pt-5 pb-4">
-                    <div class="flex justify-between table-heading">
-                            <h5 class="flex justify-start items-start text-lg font-bold text-gray-700 bg-gray-100 py-2 w-full px-3">Search
-                            Collection</h5>
+                        <div class="flex justify-between table-heading">
+                            <h5
+                                class="flex justify-start items-start text-lg font-bold text-gray-700 bg-gray-100 py-2 w-full px-3">
+                                Search
+                                Collection</h5>
                         </div>
                         <hr>
                         <div class="flex justify-center mt-5 pt-5">
@@ -121,20 +129,57 @@
                     </div>
                     {{-- Image List --}}
                     <section class="overflow-hidden text-gray-700 ">
-                        <div class="container px-2 py-2 mx-auto ">
+                        <div class="container px-4 py-2 mx-auto lg:pt-12 ">
                             <div class="flex flex-wrap -m-1 md:-m-2">
-                                @forelse ($images as $image)
-                                    <a href="javascript:void(0)"
-                                        wire:click="selectImage({{ $image->id }},'{{ $image->description }}','{{ $image->assets->preview->url }}','{{ $image->assets->large_thumb->url }}')"
-                                        class="flex flex-wrap w-2/5 border-solid border-2 mr-3 mb-5 search-images">
-                                        <div class="w-full p-1 md:p-2">
-                                            <img alt="gallery"
-                                                class="block object-cover object-center rounded-lg"
-                                                src="{{ $image->assets->large_thumb->url }}">
+
+                                @forelse ($imageStocks as $image)
+                                    <a href="javascript:void(0)" class="flex flex-wrap">
+
+                                        <div class="p-1 md:p-2 relative">
+                                            <div class="remove-image"
+                                                style="position:absolute;right:10px;top:5px;padding:5px;"
+                                                wire:click.prevent="removeImage({{ $image['image_id'] }},'{{ $image['image_title'] }}','{{ $image['image_preview_url'] }}','{{ $image['image_thumbnail_url'] }}')">
+                                                x</div>
+                                            <img alt="gallery" class="rounded"
+                                                src="{{ $image['image_thumbnail_url'] }}"
+                                                style="width: 70px; height:70px;">
                                         </div>
                                     </a>
                                 @empty
                                 @endforelse
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="overflow-hidden text-gray-700 ">
+                        <div class="container px-2 py-2 mx-auto ">
+                            <div class="flex flex-wrap -m-1 md:-m-2">
+                                @if ($setting->source_api == 'https://www.shutterstock.com')
+                                    @forelse ($images as $image)
+                                        <a href="javascript:void(0)"
+                                            wire:click="selectImage({{ $image['id'] }},'{{ $image['title'] }}','{{ $image['previewUrl'] }}','{{ $image['thumbnailUrl'] }}')"
+                                            class="flex flex-wrap w-1/4 border-solid border-2 mr-3 mb-5 search-images">
+                                            <div class="p-1 md:p-2">
+                                                <img alt="gallery" class="block object-cover object-center rounded-lg"
+                                                    src="{{ $image['thumbnailUrl'] }}">
+                                            </div>
+                                        </a>
+                                    @empty
+                                    @endforelse
+                                @elseif ($setting->source_api == 'https://www.storyblocks.com')
+                                    @forelse ($images as $image)
+                                        <a href="javascript:void(0)"
+                                            wire:click="selectImage({{ $image['id'] }},'{{ $image['title'] }}','{{ $image['previewUrl'] }}','{{ $image['thumbnailUrl'] }}')"
+                                            class="flex flex-wrap w-1/4 border-solid border-2 mr-3 mb-5 search-images">
+                                            <div class=" p-1 md:p-2">
+                                                <img alt="gallery" class="block object-cover object-center rounded-lg"
+                                                    src="{{ $image['thumbnailUrl'] }}">
+                                            </div>
+                                        </a>
+                                    @empty
+                                    @endforelse
+                                @endif
+
                             </div>
                         </div>
                     </section>
@@ -147,32 +192,7 @@
                             <a href="?page={{ $page + 1 }}">Next</a>
                         @endif
                     </nav>
-                    {{-- <div>{{ $images->links() }}</div> --}}
-                    {{-- Selected Image --}}
                     <div x-show="open">
-                        <section class="overflow-hidden text-gray-700 ">
-                            <div class="container px-4 py-2 mx-auto lg:pt-12 ">
-                                <div class="flex flex-wrap -m-1 md:-m-2">
-
-                                    @forelse ($imageStocks as $image)
-                                        <a href="javascript:void(0)" class="flex flex-wrap">
-
-                                            <div class="p-1 md:p-2 relative">
-                                                <div class="remove-image"
-                                                    style="position:absolute;right:10px;top:5px;padding:5px;"
-                                                    wire:click.prevent="removeImage({{ $image['image_id'] }},'{{ $image['image_title'] }}','{{ $image['image_preview_url'] }}','{{ $image['image_thumbnail_url'] }}')">
-                                                    x</div>
-                                                <img alt="gallery" class="rounded"
-                                                    src="{{ $image['image_thumbnail_url'] }}"
-                                                    style="width: 70px; height:70px;">
-                                            </div>
-                                        </a>
-                                    @empty
-                                    @endforelse
-                                </div>
-                            </div>
-                        </section>
-
                         <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                             <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
                                 <button wire:click.prevent="store()" type="button"
