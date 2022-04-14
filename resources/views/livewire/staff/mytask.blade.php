@@ -1,46 +1,59 @@
-<x-slot name="header">
-    {{-- <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+{{-- <x-slot name="header">
+    <h2 class="font-semibold text-xl text-gray-800 leading-tight">
         Tasks
-    </h2> --}}
-</x-slot>
+    </h2>
+</x-slot> --}}
 <div class="py-12">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg px-4 py-4">
-            @if (session()->has('message'))
-                <div class="bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md my-3" role="alert">
-                  <div class="flex">
-                    <div>
-                      <p class="text-sm">{{ session('message') }}</p>
+            @if (session()->has('success'))
+                <div class="bg-purple border-t-4 border-teal-500 rounded-b text-white px-4 py-3 shadow-md my-3"
+                    role="alert">
+                    <div class="flex">
+                        <div>
+                            <p class="text-sm">{{ session('success') }}</p>
+                        </div>
                     </div>
-                  </div>
                 </div>
             @endif
-            {{-- <button wire:click="create()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-3 mr-auto">Create New Task</button> --}}
-            {{-- @if($isOpen)
-                @include('livewire.staff.start')
-            @endif --}}
-            @php
-                dd($my_tasks)
-            @endphp
+            @if (session()->has('error'))
+                <div class="bg-red-100 border-t-4 border-red-500 rounded-b text-red-900 px-4 py-3 shadow-md my-3"
+                    role="alert">
+                    <div class="flex">
+                        <div>
+                            <p class="text-sm">{{ session('error') }}</p>
+                        </div>
+                    </div>
+                </div>
+            @endif
+            <div class="flex justify-between table-heading my-3">
+                <h4 class="flex justify-center items-center font-bold">My Tasks</h4>
+                
+            </div>
             <table class="table-fixed w-full">
                 <thead>
-                    <tr class="bg-gray-100">
-                        <th class="px-4 py-2 w-20">No.</th>
-                        <th class="px-4 py-2">Task Name</th>
-                        {{-- <th class="px-4 py-2">Action</th> --}}
+                    <tr class="bg-gray-100 text-left">
+                        <th class="px-4 py-2 text-left">Task Name</th>
+                        <th class="px-4 py-2 text-left">Status</th>
                     </tr>
                 </thead>
                 <tbody>
-                    
-                    @foreach($my_tasks as $task)
-                    <tr>
-                        <td class="border px-4 py-2">{{ $task->id }}</td>
-                        <td class="border px-4 py-2">{{ $task->name }}</td>
-                        {{-- <td class="border px-4 py-2">
-                        <button wire:click="start({{ $task->id }})" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Start</button>
-                        </td> --}}
-                    </tr>
-                    @endforeach
+                    @forelse ($my_tasks->tasks as $task)
+                        <tr>
+                            <td class="border px-4 py-2 task-name">{{ $task->name }}</td>
+                            <td class="border px-4 py-2">
+                                @if ($task->pivot->is_completed == 1)
+                                    <span class="w-20 py-2 rounded bg-gray-500 hover:bg-green-600 text-white font-bold px-4 ">Completed</span>
+                                @else
+                                    <a href="{{ route('staff.start.task', [$task->id]) }}"
+                                        class="w-20 py-2 rounded bg-purple hover:bg-green-600 text-white font-bold px-4 ">Continue</a>
+                                @endif
+                            </td>
+                        </tr>
+                    @empty
+                        <div>No result found.</div>
+                    @endforelse
+
                 </tbody>
             </table>
         </div>

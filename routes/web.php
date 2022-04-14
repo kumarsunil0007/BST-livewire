@@ -4,10 +4,14 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Livewire\Admin\Settings;
 use App\Http\Livewire\Admin\Tasks;
 use App\Http\Livewire\Admin\Staff;
+use App\Http\Livewire\Admin\ViewTask;
 use App\Http\Livewire\Staff\Alltask;
 use App\Http\Livewire\Staff\Mytask;
 use App\Models\Task;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Laravel\Jetstream\Http\Controllers\Inertia\UserProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,8 +52,9 @@ Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified'])-
         })->name('dashboard');
         Route::get('tasks', Tasks::class)->name('task');
         Route::get('staff', Staff::class)->name('staff');
+        Route::get('view-task/{id}', ViewTask::class)->name('viewTask');
 
-        // Route::get('profile', Settings::class)->name('profile');
+        Route::get('profile', App\Http\Livewire\Admin\Profile::class)->name('profile');
         Route::get('setting', Settings::class)->name('setting');
     });
 
@@ -62,9 +67,14 @@ Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified'])-
         })->name('dashboard');
         Route::get('tasks', Alltask::class)->name('allTask');
         Route::get('my-tasks', Mytask::class)->name('myTask');
+        Route::get('profile', App\Http\Livewire\Staff\Profile::class)->name('profile');
+        Route::get('start-task/{id}', App\Http\Livewire\Staff\StartTask::class)->name('start.task');
+        // Route::get('search-image/{keyword}', [StaffTask::class, 'searchImage'])->name('searchImage');
     });
 
     Route::get('users', function(){
-        return Task::with(['users'])->get();
+        $task = Task::find(3);
+        $taskImages = $task->load('taskImages', 'taskStatus.user');
+        return $taskImages;
     });
 });

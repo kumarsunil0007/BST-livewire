@@ -13,11 +13,17 @@ class Task extends Model
 
     public function users()
     {
-        $this->belongsToMany(User::class, StaffTask::class, 'task_id', 'user_id', 'id', 'id');
+        return $this->belongsToMany(User::class, StaffTask::class, 'task_id', 'user_id', 'id', 'id')->withPivot('is_completed');
     }
 
     public function taskStatus()
     {
-        $this->hasMany(StaffTask::class, 'task_id', 'id');
+        return $this->hasOne(StaffTask::class, 'task_id', 'id');
     }
+
+    public function taskImages()
+    {
+        return $this->hasMany(UserTaskImage::class, 'task_id', 'id');
+    }
+
 }

@@ -8,7 +8,7 @@ use Livewire\Component;
 
 class Staff extends Component
 {
-    public $staffs, $name, $email, $password, $phone, $staff_id;
+    public $staffs, $name, $email, $password, $phone, $staff_id, $header;
     public $isOpen = 0;
 
     public function mount()
@@ -18,13 +18,14 @@ class Staff extends Component
     
     public function render()
     {
-        $this->staffs = User::role('staff')->get();
+        $this->staffs = User::role('staff')->orderBy('id', 'DESC')->get();
         return view('livewire.admin.staff');
     }
 
     public function create()
     {
         $this->resetInputFields();
+        $this->header = 'Add New Staff';
         $this->openModal();
     }
 
@@ -70,7 +71,7 @@ class Staff extends Component
         }
 
         session()->flash(
-            'message',
+            'success',
             $this->staff_id ? 'Staff Updated Successfully.' : 'Staff Created Successfully.'
         );
 
@@ -80,6 +81,7 @@ class Staff extends Component
 
     public function edit($id)
     {
+        $this->header = 'Edit Staff';
         $staff = User::findOrFail($id);
         $this->staff_id = $id;
         $this->name = $staff->name;
@@ -92,6 +94,6 @@ class Staff extends Component
     public function delete($id)
     {
         User::find($id)->delete();
-        session()->flash('message', 'Staff Deleted Successfully.');
+        session()->flash('success', 'Staff Deleted Successfully.');
     }
 }

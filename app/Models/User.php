@@ -64,12 +64,17 @@ class User extends Authenticatable
 
     public function tasks()
     {
-        $this->belongsToMany(Task::class, StaffTask::class, 'user_id', 'task_id', 'id', 'id');
+        return $this->belongsToMany(Task::class, StaffTask::class, 'user_id', 'task_id', 'id', 'id')->withPivot('is_completed');
     }
 
     public function userTaskStatus()
     {
-        $this->hasMany(StaffTask::class, 'user_id', 'id');
+        return $this->hasMany(StaffTask::class, 'user_id', 'id');
+    }
+
+    public function userImages()
+    {
+        return $this->hasMany(UserTaskImage::class, 'user_id', 'id');
     }
 
 }

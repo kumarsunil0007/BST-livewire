@@ -7,18 +7,19 @@ use Livewire\Component;
 
 class Tasks extends Component
 {
-    public $tasks, $name, $no_of_images, $description, $task_id;
+    public $tasks, $name, $no_of_images, $description, $task_id, $header;
     public $isOpen = 0;
 
     public function render()
     {
-        $this->tasks = Task::all();
+        $this->tasks = Task::orderBy('id', 'DESC')->get();
         return view('livewire.admin.tasks');
     }
 
     public function create()
     {
         $this->resetInputFields();
+        $this->header = 'Create New Task';
         $this->openModal();
     }
 
@@ -67,7 +68,7 @@ class Tasks extends Component
         }
 
         session()->flash(
-            'message',
+            'success',
             $this->task_id ? 'Task Updated Successfully.' : 'Task Created Successfully.'
         );
 
@@ -84,6 +85,7 @@ class Tasks extends Component
      */
     public function edit($id)
     {
+        $this->header = 'Edit Task';
         $task = Task::findOrFail($id);
         $this->task_id = $id;
         $this->name = $task->name;
@@ -101,6 +103,6 @@ class Tasks extends Component
     public function delete($id)
     {
         Task::find($id)->delete();
-        session()->flash('message', 'Task Deleted Successfully.');
+        session()->flash('success', 'Task Deleted Successfully.');
     }
 }
