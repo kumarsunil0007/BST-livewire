@@ -33,7 +33,7 @@
                     class="bg-dark-blue hover:bg-dark-blue text-white font-medium text-sm py-2 px-4 rounded my-3">Back</a>
             </div>
             <div class="flex justify-between table-heading mb-3">
-                <h5 class="flex justify-start items-start font-bold text-lg text-dark-blue bg-gray-100 w-full px-2 py-2">Task Details</h5>
+                <h5 class="flex justify-start items-start font-bold text-lg text-dark-blue bg-gray-100 w-full py-2">Task Details</h5>
             </div>
             <hr/>
             @if ($task->taskStatus)
@@ -73,14 +73,17 @@
                                 for="inline-full-name">Image Provider : <strong>{{ $task->taskStatus ? ucwords($task->taskStatus->source) : 'N/A' }}</strong></label>
                         </div>
                   
+                       
+
+                    </div>
+                    <div class="md:flex md:items-center mb-4">
                         <div class="w-full mb-6 md:mb-0">
                             <label class="block text-gray-500 font-medium text-sm md:text-left mb-1 md:mb-3 pr-4"
                                 for="inline-full-name">Description : <strong>{{ ucfirst($task->description) }}</strong></label>
                         </div>
-
                     </div>
                     <div class="flex justify-between table-heading mb-3">
-                            <h5 class="flex justify-start items-start font-bold text-lg text-dark-blue bg-gray-100 w-full px-2 py-2">Staff Details</h5>
+                            <h5 class="flex justify-start items-start font-bold text-lg text-dark-blue bg-gray-100 w-full py-2">Staff Details</h5>
                            
                     </div>
                         <hr/>
@@ -103,7 +106,7 @@
                 @if (($task->taskStatus && $task->taskStatus->user_id == Auth::user()->id) || Auth::user()->hasRole('admin'))
                     <section class="overflow-hidden">
                         <div class="container py-2 mx-auto ">
-                        <h5 class="flex justify-start items-start font-bold text-lg text-dark-blue bg-gray-100 w-full px-2 py-2">Selected Images</h5>
+                        <h5 class="flex justify-start items-start font-bold text-lg text-dark-blue bg-gray-100 w-full py-2">Selected Images</h5>
                            
                                 <hr/>
                             <div class="flex flex-wrap mt-5">
@@ -117,7 +120,7 @@
                                         </div>
                                     </div>
                                 @empty
-                                    <div>No images to display</div>
+                                    <p class="text-sm">No images to display</p>
                                 @endforelse
                             </div>
                     </section>

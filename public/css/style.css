@@ -48,3 +48,6 @@ body{
 .bg-dark-blue{
     background-color: #061395;
 }
+.login-form label{
+    font-family: 'Poppins', sans-serif;
+}
