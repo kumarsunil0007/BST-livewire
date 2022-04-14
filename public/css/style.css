@@ -1,13 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,800&display=swap');
+
+body{
+    font-family: 'Poppins', sans-serif;
+}
 .main-menu a, .menu-right button {
-    font-size: 16px;
-    font-weight: bold;
+    font-size: 15px;
     text-transform: capitalize;
+    border-bottom: 0px;
 }
 .task-name {
     text-transform: capitalize;
 }
 .menu-right button i {
-    background: #6875f5;
+    background: #061395;
     border-radius: 50%;
     width: 22px;
     color: #Fff;
@@ -40,6 +45,6 @@
 .menu-right a {
     font-weight: bold;
 }
-.bg-purple{
-    background-color: #6875f5;
+.bg-dark-blue{
+    background-color: #061395;
 }

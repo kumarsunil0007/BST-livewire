@@ -4,7 +4,7 @@
             <div class="flex justify-between table-heading my-3  px-3">
                 <h4 class="flex justify-center items-center font-bold ">Task Details</h4>
                 <a href="{{ request()->routeIs('admin.*') ? route('admin.task') : route('staff.myTask') }}"
-                    class="bg-purple hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-3">Back</a>
+                    class="bg-dark-blue hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-3">Back</a>
             </div>
             @if (session()->has('success'))
                 <div class="bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md my-3"
