@@ -13,6 +13,7 @@ use Livewire\Component;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Livewire\WithPagination;
 
 class StartTask extends Component
@@ -27,28 +28,32 @@ class StartTask extends Component
     public $removeImageStocks = [];
 
     protected $privateKey;
+    protected $publicKey;
     public $search;
-    public $aicUrl = 'https://api.shutterstock.com/v2/images/';
     public $page;
     public $records;
     public $nextPageUrl;
     public $previousPageUrl;
 
+    function __construct()
+    {
+        $this->privateKey = env('STORYBLOCK_PRIVATE_KEY');
+        $this->publicKey = env('STORYBLOCK_PUBLIC_KEY');
+    }
+
     public function mount($id)
     {
         $this->task_id = $id;
-        $this->queryFields['sort'] = 'popular';
-        $this->queryFields['orientation'] = 'horizontal';
+        //$this->queryFields['orientation'] = 'horizontal';
         $this->queryFields['page'] = $this->page;
-        $this->queryFields['limit'] = 12;
         $this->images = [];
-        $this->privateKey = env('STORYBLOCK_PRIVATE_KEY');
     }
 
     public function render()
     {
         $task = Task::find($this->task_id);
-        return view('livewire.staff.start-task', ['task' => $task]);
+        $setting = Setting::first();
+        return view('livewire.staff.start-task', ['task' => $task, 'setting' => $setting]);
     }
 
     public function searchImage()
@@ -57,12 +62,14 @@ class StartTask extends Component
             'keyword' => 'required',
         ]);
 
-        $this->queryFields['query'] = $this->keyword;
+        $setting = Setting::first();
 
-        $url = Setting::first();
-
-        if ($url->source_api == 'https://www.shutterstock.com') {
+        if ($setting->source_api == 'https://www.shutterstock.com') {
             $SHUTTERSTOCK_API_TOKEN = env('SHUTTERSTOCK_API_TOKEN');
+
+            $this->queryFields['query'] = $this->keyword;
+            $this->queryFields['sort'] = 'popular';
+            $this->queryFields['limit'] = 12;
 
             $options = [
                 CURLOPT_URL => "https://api.shutterstock.com/v2/images/search?" . http_build_query($this->queryFields),
@@ -94,41 +101,66 @@ class StartTask extends Component
             $this->images = $decodedResponse->data;
             $this->previousPageUrl = Arr::get($response, 'pagination.prev_url');
             $this->nextPageUrl = Arr::get($response, 'pagination.prev_url');
+        } else if ($setting->source_api == 'https://www.storyblocks.com') {
+            $privateKey = env('STORYBLOCK_PRIVATE_KEY');
+            $publicKey = env('STORYBLOCK_PUBLIC_KEY');
+            $projectId = env('PROJECT_ID');
+            $userId = env('USER_ID');
+            // dd($privateKey);
+            $expires = time() + 100;
 
-        } else if ($url->source_api == 'https://www.storyblocks.com') {
-
-            $resource = "/api/v2/videos/search";
-            
-            $storyBlockQuery = [
-                'APIKEY' => '',
-            ];
+            $this->queryFields['APIKEY'] = $this->publicKey;
+            $this->queryFields['EXPIRES']
+                = $expires;
+            $this->queryFields['HMAC'] = $this->getToken($expires);
+            $this->queryFields['project_id'] = $projectId;
+            $this->queryFields['user_id'] =  $userId;
+            $this->queryFields['keywords'] = $this->keyword;
 
             $curl = curl_init();
 
             curl_setopt_array($curl, array(
-                CURLOPT_URL => '/api/v2/images/search?APIKEY=%3Cstring%3E&EXPIRES=%3Cstring%3E&HMAC=%3Cstring%3E&project_id=%3Cstring%3E&user_id=%3Cstring%3E&keywords=%3Cstring%3E&content_type=%3Cstring%3E&orientation=%3Cstring%3E&color=%3Cstring%3E&has_transparency=%3Cboolean%3E&has_talent_released=%3Cboolean%3E&has_property_released=%3Cboolean%3E&is_editorial=%3Cboolean%3E&categories=%3Cstring%3E&page=%3Cint%3E&results_per_page=%3Cint%3E&sort_by=%3Cstring%3E&sort_order=%3Cstring%3E&required_keywords=%3Cstring%3E&filtered_keywords=%3Cstring%3E&translate=%3Cboolean%3E&source_language=%3Cstring%3E&contributor_id=%3Cint%3E&safe_search=%3Cboolean%3E&library_ids=%3Cstring%3E&exclude_library_ids=%3Cstring%3E&content_scores=%3Cboolean%3E',
+                CURLOPT_URL => 'https://api.graphicstock.com/api/v2/images/search?' . http_build_query($this->queryFields),
                 CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => '',
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                 CURLOPT_CUSTOMREQUEST => 'GET',
             ));
 
             $response = curl_exec($curl);
 
             curl_close($curl);
+
+            $decodedResponse = json_decode($response);
+            $this->images = $decodedResponse->results;
+            // return json_decode($response, true);
         }
     }
 
-    public function generateToken($resource)
+    public function getToken($expire = null)
     {
-        if (session()->has('expire')) {
-
-            $expires = time() + 1000;
-            $hmac = hash_hmac("sha256", $resource, $this->privateKey . $expires);
+        if (session()->has('hmac_token') && false) {
+            $hmacToken = session('hmac_token');
+        } else {
+            $hmacToken = $this->generateToken(null, $expire);
+            if ($hmacToken) {
+                session('hmac_token', $hmacToken);
+            }
         }
+        return $hmacToken;
+    }
+
+    public function generateToken($resource = null, $expire)
+    {
+        $privateKey = env('STORYBLOCK_PRIVATE_KEY');
+        $baseUrl = "https://api.graphicstock.com";
+
+        if (!$resource) {
+            $resource = "/api/v2/images/search";
+        }
+
+
+        $hmac = hash_hmac("sha256", $resource, $privateKey . $expire);
+        // dd($privateKey);
+        return $hmac;
     }
 
     public function selectImage($imageId, $title, $preview, $thumbnail)

@@ -96,18 +96,33 @@
                     <section class="overflow-hidden text-gray-700 ">
                         <div class="container px-4 py-2 mx-auto lg:pt-8 lg:px-20">
                             <div class="flex flex-wrap -m-1 md:-m-2">
+                                @if ($setting->source_api == 'https://www.shutterstock.com')
+                                    @forelse ($images as $image)
+                                        <a href="javascript:void(0)"
+                                            wire:click="selectImage({{ $image->id }},'{{ $image->description }}','{{ $image->assets->preview->url }}','{{ $image->assets->large_thumb->url }}')"
+                                            class="flex flex-wrap w-2/3 search-images">
+                                            <div class="w-full p-1 md:p-2">
+                                                <img alt="gallery" class="block object-cover object-center rounded-lg"
+                                                    src="{{ $image->assets->large_thumb->url }}">
+                                            </div>
+                                        </a>
+                                    @empty
+                                    @endforelse
+                                @elseif ($setting->source_api == 'https://www.storyblocks.com')
                                 @forelse ($images as $image)
                                     <a href="javascript:void(0)"
-                                        wire:click="selectImage({{ $image->id }},'{{ $image->description }}','{{ $image->assets->preview->url }}','{{ $image->assets->large_thumb->url }}')"
+                                        wire:click="selectImage({{ $image->id }},'{{ $image->title }}','{{ $image->preview_url }}','{{ $image->thumbnail_url }}')"
                                         class="flex flex-wrap w-2/3 search-images">
                                         <div class="w-full p-1 md:p-2">
                                             <img alt="gallery"
                                                 class="block object-cover object-center rounded-lg"
-                                                src="{{ $image->assets->large_thumb->url }}">
+                                                src="{{ $image->thumbnail_url }}">
                                         </div>
                                     </a>
                                 @empty
                                 @endforelse
+                                @endif
+
                             </div>
                         </div>
                     </section>
