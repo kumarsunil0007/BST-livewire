@@ -44,7 +44,7 @@ class StartTask extends Component
     public function mount($id)
     {
         $this->task_id = $id;
-        //$this->queryFields['orientation'] = 'horizontal';
+        $this->queryFields['orientation'] = 'horizontal';
         $this->queryFields['page'] = $this->page;
         $this->images = [];
     }
@@ -86,21 +86,21 @@ class StartTask extends Component
             curl_close($handle);
 
             $decodedResponse = json_decode($response);
-            // $images = [];
-            // foreach ($decodedResponse->data as $image) {
-            //     $images[] = [
-            //         'id' => $image->id,
-            //         'title' => $image->description,
-            //         'previewUrl' => $image->assets->preview->url,
-            //         'thumbnailUrl' => $image->assets->large_thumb->url,
-            //     ];
-            // }
-            // $this->images = $images;
+            $images = [];
+            foreach ($decodedResponse->data as $image) {
+                $images[] = [
+                    'id' => $image->id,
+                    'title' => $image->description,
+                    'previewUrl' => $image->assets->preview->url,
+                    'thumbnailUrl' => $image->assets->large_thumb->url,
+                ];
+            }
+            $this->images = $images;
 
 
-            $this->images = $decodedResponse->data;
-            $this->previousPageUrl = Arr::get($response, 'pagination.prev_url');
-            $this->nextPageUrl = Arr::get($response, 'pagination.prev_url');
+            // $this->images = $decodedResponse->data;
+            // $this->previousPageUrl = Arr::get($response, 'pagination.prev_url');
+            // $this->nextPageUrl = Arr::get($response, 'pagination.prev_url');
         } else if ($setting->source_api == 'https://www.storyblocks.com') {
             $privateKey = env('STORYBLOCK_PRIVATE_KEY');
             $publicKey = env('STORYBLOCK_PUBLIC_KEY');
@@ -130,7 +130,17 @@ class StartTask extends Component
             curl_close($curl);
 
             $decodedResponse = json_decode($response);
-            $this->images = $decodedResponse->results;
+            $images = [];
+            foreach ($decodedResponse->results as $image) {
+                $images[] = [
+                    'id' => $image->id,
+                    'title' => $image->title,
+                    'previewUrl' => $image->preview_url,
+                    'thumbnailUrl' => $image->thumbnail_url,
+                ];
+            }
+
+            $this->images = $images;
             // return json_decode($response, true);
         }
     }

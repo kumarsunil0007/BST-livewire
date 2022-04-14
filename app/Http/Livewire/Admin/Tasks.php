@@ -33,6 +33,7 @@ class Tasks extends Component
 
     public function openModal()
     {
+
         $this->isOpen = true;
     }
 
@@ -40,7 +41,7 @@ class Tasks extends Component
     {
         $this->isOpen = false;
     }
-    
+
     public function openDeleteModal()
     {
         $this->isDelete = true;

@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('settings', function (Blueprint $table) {
-            //
+            $table->string('source_name')->nullable()->after('id');
         });
     }
 
@@ -26,7 +26,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('settings', function (Blueprint $table) {
-            //
+            $table->dropColumn('source_name');
         });
     }
 };
