@@ -1,122 +1,161 @@
 <x-slot name="header">
-    {{-- <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-        Tasks
-    </h2> --}}
+    
 </x-slot>
-<div class="py-12">
-    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+<div class="">
+<nav class="flex py-3 px-5 text-gray-700 bg-dark-blue" aria-label="Breadcrumb">
+<div class="container mx-auto">
+            <ol class="inline-flex items-center space-x-1 md:space-x-3">
+                <li class="inline-flex items-center">
+                <a href="#" class="inline-flex items-center text-sm font-medium text-white hover:text-white">
+                    <svg class="mr-2 w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path></svg>
+                    Home
+                </a>
+                </li>
+                <li>
+                <div class="flex items-center">
+                    <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+                    <a href="#" class="ml-1 text-sm font-medium text-white">Tasks</a>
+                </div>
+                </li>
+                <li>
+                <div class="flex items-center">
+                    <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+                    <a href="#" class="ml-1 text-sm font-medium text-white">Tasks Details</a>
+                </div>
+                </li>
+            </ol>
+     </div>
+</nav>
+    <div class="container mx-auto py-12">
         <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg px-4 py-4">
-            <div class="flex justify-between table-heading my-3  px-3">
-                <h4 class="flex justify-center items-center font-bold ">View Task</h4>                
+            <div class="flex justify-end table-heading mb-3">
+                <a href="{{ request()->routeIs('admin.*') ? route('admin.task') : route('staff.allTask') }}"
+                    class="bg-dark-blue hover:bg-dark-blue text-white font-medium text-sm py-2 px-4 rounded my-3">Back</a>
             </div>
+            <div class="flex justify-between table-heading mb-3">
+                <h5 class="flex justify-start items-start font-bold text-lg text-dark-blue bg-gray-100 w-full py-2 px-2">Task Details</h5>
+            </div>
+            <hr/>
             @if ($task->taskStatus)
-                <form class="w-full max-w-lg  ">
-                    <div class="md:flex md:items-center mb-4">
-                        <div class="md:w-1/2 px-3 mb-6 md:mb-0">
-                            <label class="block text-gray-500 font-bold md:text-left mb-1 md:mb-0 pr-4" for="inline-full-name">User Name</label>
-                            <input class="bg-gray-100 appearance-none border-2 border-gray-200 rounded w-full py-2 px-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                                id="inline-full-name" type="text" value="{{$task->taskStatus->user->name}}" readonly>
-                        </div>
-                        <div class="md:w-1/2 px-3 mb-6 md:mb-0">
-                            <label class="block text-gray-500 font-bold md:text-left mb-1 md:mb-0 pr-4" for="inline-full-name">User Email</label>
-                            <input class="bg-gray-100 appearance-none border-2 border-gray-200 rounded w-full py-2 px-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                                id="inline-full-name" type="text" value="{{ $task->taskStatus->user->email }}" readonly>
-                        </div>
-                    </div>
-                    <div class="md:flex md:items-center mb-4">
-                        
-                        <div class="md:w-1/2 px-3 mb-6 md:mb-0">
-                            <label class="block text-gray-500 font-bold md:text-left mb-1 md:mb-0 pr-4" for="inline-full-name">Task Name</label>
-                            <input class="bg-gray-100 appearance-none border-2 border-gray-200 rounded w-full py-2 px-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                            id="inline-full-name" type="text" value="{{ ucwords($task->name) }}" readonly>
-                        </div>
-                        <div class="md:w-1/2 px-3 mb-6 md:mb-0">
-                            <label class="block text-gray-500 font-bold md:text-left mb-1 md:mb-0 pr-4" for="inline-full-name">No of Images</label>
-                            <input class="bg-gray-100 appearance-none border-2 border-gray-200 rounded w-full py-2 px-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                            id="inline-full-name" type="text" value="{{ $task->no_of_images }}" readonly>
-                        </div>
-                    </div>
-                    
-                    <div class="md:flex md:items-center mb-4">
-                        <div class="md:w-1/2 px-3 mb-6 md:mb-0">
-                            <label class="block text-gray-500 font-bold md:text-left mb-1 md:mb-0 pr-4" for="inline-full-name">Start Time</label>
-                            <input class="bg-gray-100 appearance-none border-2 border-gray-200 rounded w-full py-2 px-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                                id="inline-full-name" type="text" value="{{ date('d-m-Y', strtotime($task->taskStatus->created_at)) }}" readonly>
-                        </div>
-                        <div class="md:w-1/2 px-3 mb-6 md:mb-0">
-                            <label class="block text-gray-500 font-bold md:text-left mb-1 md:mb-0 pr-4" for="inline-full-name">Submit Time</label>
-                            <input class="bg-gray-100 appearance-none border-2 border-gray-200 rounded w-full py-2 px-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                            id="inline-full-name" type="text" value="{{ date('d-m-Y', strtotime($task->taskStatus->updated_at)) }}" readonly>
-                        </div>
-                        <div class="md:w-1/2 px-3 mb-6 md:mb-0">
-                            <label class="block text-gray-500 font-bold md:text-left mb-1 md:mb-0 pr-4" for="inline-full-name">Status</label>
-                            <input class="bg-gray-100 appearance-none border-2 border-gray-200 rounded w-full py-2 px-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                            id="inline-full-name" type="text" value="{{$task->taskStatus->is_completed == 0 ? 'In progress' : 'Completed'}}" readonly>
-                        </div>
-                    </div>
-                    <div class="md:flex md:items-center mb-4">
-                        <div class="w-full px-3 mb-6 md:mb-0">
-                            <label class="block text-gray-500 font-bold md:text-left mb-1 md:mb-0 pr-4" for="inline-full-name">Description</label>
-                            <textarea class="bg-gray-100 form-control block w-full px-2 py-1.5  text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                            id="exampleFormControlTextarea1" rows="3" placeholder="Your message" readonly>{{ ucfirst($task->description) }}</textarea>
-                        </div>
-                        <div class="md:w-1/2 px-3 mb-6 md:mb-0">
-                            <label class="block text-gray-500 font-bold md:text-left mb-1 md:mb-0 pr-4" for="inline-full-name">Image Provider</label>
-                            <div class="inline-flex items-center">
-                                <input class="form-check-input form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-                                <label class="form-check-label inline-block text-gray-800" for="inlineRadio10">Shutter Stock</label>
-                            </div>
-                            <div class="inline-flex items-center ml-6">
-                                <input class="form-check-input form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-                                <label class="form-check-label inline-block text-gray-800" for="inlineRadio10">Story Blocks</label>
-                            </div>
-                        </div>
-                    </div>
-            </form>
+                <form class="w-full pt-5">
 
-            <section class="overflow-hidden text-gray-700 ">
-                <div class="container px-4 py-2 mx-auto ">
-                    <label class="block text-gray-500 font-bold md:text-left mb-1 md:mb-0 pr-4" for="inline-full-name">Selected Images</label>
-                    <div class="flex flex-wrap -m-1 md:-m-2">
-                        
-                        @forelse ($task->taskImages as $image)
-                            <a href="javascript:void(0)"
-                                wire:click="selectImage({{ $image['id'] }},'{{ $image['title'] }}','{{ $image['previewUrl'] }}','{{ $image['thumbnailUrl'] }}')"
-                                class="flex flex-wrap w-2/3">
-                                <div class="w-full p-1 md:p-2">
-                                    <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
-                                        src="{{ $image['image_thumbnail_url'] }}">
-                                </div>
-                            </a>
-                        @empty
-                        <div>No images to display</div>
-                        @endforelse
+                    <div class="md:flex md:items-center mb-4">
+                       
+                        <div class="md:w-1/2 mb-6 md:mb-0">
+                            <label class="block text-gray-500 font-medium text-sm md:text-left mb-1 md:mb-3 pr-4 px-2"
+                                for="inline-full-name">Task Name : <strong>{{ ucwords($task->name) }}</strong></label>
+                            
+                        </div>
+                        <div class="md:w-1/2 mb-6 md:mb-0">
+                            <label class="block text-gray-500 font-medium text-sm md:text-left mb-1 md:mb-3 pr-4 px-2"
+                                for="inline-full-name">Status : <span class="inline-flex items-center justify-center px-2 py-1 text-sm font-medium leading-none text-white bg-dark-blue rounded-full">{{ $task->taskStatus->is_completed == 0 ? 'In progress' : 'Completed' }}</span></label>
+                           
+                        </div>
+                       
+                    </div>
+                    <div class="md:flex md:items-center mb-4">
+                    <div class="md:w-1/2 mb-6 md:mb-0">
+                            <label class="block text-gray-500 font-medium text-sm md:text-left mb-1 md:mb-3 pr-4 px-2"
+                                for="inline-full-name">No. of Images : <strong>{{ $task->no_of_images }}</strong></label>
+                        </div>
+                      
+                        <div class="md:w-1/2 mb-6 md:mb-0">
+                            <label class="block text-gray-500 font-medium text-sm md:text-left md:mb-2 mb-3 pr-4 px-2"
+                                for="inline-full-name">Image Provider : <strong>{{ $task->taskStatus ? ucwords($task->taskStatus->source) : 'N/A' }}</strong></label>
+                        </div>
+                  
+                       
+
+                    </div>
+                    <div class="md:flex md:items-center mb-4">
+                        <div class="w-full mb-6 md:mb-0">
+                            <label class="block text-gray-500 font-medium text-sm md:text-left mb-1 md:mb-3 pr-4 px-2"
+                                for="inline-full-name">Description : <strong>{{ ucfirst($task->description) }}</strong></label>
+                        </div>
+                    </div>
+                    <div class="flex justify-between table-heading mb-3">
+                            <h5 class="flex justify-start items-start font-bold text-lg text-dark-blue bg-gray-100 w-full py-2 px-2">Staff Details</h5>
+                           
+                    </div>
+                        <hr/>
+                     
+                    <div class="md:flex md:items-center mb-4 mt-5">
+                    @if (Auth::user()->hasRole('admin'))
+                            <div class="md:w-1/2 mb-6 md:mb-0">
+                                <label class="block text-gray-500 font-medium md:text-left text-sm mb-1 md:mb-3 pr-4 px-2"
+                                    for="inline-full-name">Name :  <strong>{{ $task->taskStatus && $task->taskStatus->user ? $task->taskStatus->user->name : 'N/A' }}</strong></label>
+                            </div>
+                            <div class="md:w-1/2 mb-6 md:mb-0">
+                                <label class="block text-gray-500 font-medium text-sm md:text-left mb-1 md:mb-3 pr-4 px-2"
+                                    for="inline-full-name">Email :  <strong>{{ $task->taskStatus && $task->taskStatus->user ? $task->taskStatus->user->email : 'N/A' }}</strong></label>
+                            </div>
+                        @endif
+                        @if (($task->taskStatus && $task->taskStatus->user_id == Auth::user()->id) || Auth::user()->hasRole('admin'))
+                            <div class="md:w-1/2 mb-6 md:mb-0">
+                                <label class="block text-gray-500 font-medium text-sm md:text-left mb-1 md:mb-3 pr-4 px-2"
+                                    for="inline-full-name">Start Date : <strong>{{ date('d-m-Y', strtotime($task->taskStatus->created_at)) }}</strong></label>
+                            </div>
+                            <div class="md:w-1/2 mb-6 md:mb-0">
+                                <label class="block text-gray-500 font-medium text-sm md:text-left mb-2 md:mb-3 pr-4 px-2"
+                                    for="inline-full-name">Submit Date : <strong>{{ date('d-m-Y', strtotime($task->taskStatus->updated_at)) }}</strong></label>
+                            </div>
+                        @endif
+                    </div>
+                </form>
+               
+                @if (($task->taskStatus && $task->taskStatus->user_id == Auth::user()->id) || Auth::user()->hasRole('admin'))
+                    <section class="overflow-hidden">
+                        <div class="container py-2 mx-auto ">
+                        <h5 class="flex justify-start items-start font-bold text-lg text-dark-blue bg-gray-100 w-full py-2 px-2">Selected Images</h5>
+                           
+                                <hr/>
+                            <div class="flex flex-wrap mt-5">
+
+                                @forelse ($task->taskImages as $image)
+                                    <div class="flex flex-wrap w-2/5 border-2 border-solid mr-3">
+                                        <div class="w-full p-1 md:p-2">
+                                            <img alt="gallery"
+                                                class="block object-cover object-center w-full h-full rounded-lg"
+                                                src="{{ $image['image_thumbnail_url'] }}">
+                                        </div>
+                                    </div>
+                                @empty
+                                    <p class="text-sm px-2">No images to display</p>
+                                @endforelse
+                            </div>
+                    </section>
+                @endif
+            @else
+                <div class="md:flex md:items-center mb-4 mt-4">
+                    <div class="md:w-1/2 mb-6 md:mb-0">
+                        <label class="block text-gray-500 font-medium md:text-left text-sm mb-1 md:mb-3 pr-4 px-2"
+                            for="inline-full-name">Status :  <span class="inline-flex items-center justify-center px-2 py-1 text-sm font-medium leading-none text-white bg-dark-blue rounded-full">Not started yet</span>
+                       </label>
+                       
+                    </div>
+                    <div class="md:w-1/2 mb-6 md:mb-0">
+                        <label class="block text-gray-500 font-medium md:text-left text-sm mb-1 md:mb-3 pr-4 px-2">Task Name : <strong>{{ ucwords($task->name) }}</strong> </label>
+                    </div>
+                    <div class="md:w-1/2 mb-6 md:mb-0">
+                        <label class="block text-gray-500 font-medium md:text-left text-sm mb-1 md:mb-3 pr-4 px-2">No. of images : <strong>{{ ucwords($task->no_of_images) }}</strong>
+                        </label>
+                    </div>
+                    <div class="md:w-1/2 mb-6 md:mb-0">
+                        <label class="block text-gray-500 font-medium md:text-left text-sm mb-1 md:mb-3 pr-4 px-2">Image Provider : <strong>{{ $task->taskStatus ? ucwords($task->taskStatus->source) : 'N/A' }}</strong>
+                        </label>
+
                     </div>
                 </div>
-            </section>
-            @else
-            <div class="flex">
-                    <div>Status: </div>
-                    <div>Not started yet</div>
-                </div>
-                <div class="flex">
-                    <div>Task Name: </div>
-                    <div>{{ ucwords($task->name) }}</div>
-                </div>
-                <div class="flex">
-                    <div>No of images: </div>
-                    <div>{{ ucwords($task->no_of_images) }}</div>
-                </div>
-                <div class="flex">
-                    <div>Description: </div>
-                    <div>{{ ucwords($task->description) }}</div>
-                </div>
-                <div class="flex">
-                    <div>Image Provider: </div>
-                    <div>Shutter Stock</div>
+                <div class="md:flex md:items-center mb-4">
+
+                    <div class="w-full mb-6 md:mb-0">
+                        <label class="block text-gray-500 font-medium md:text-left text-sm mb-1 md:mb-3 pr-4 px-2">Description : <strong>{{ ucwords($task->description) }}</strong>
+                        </label>
+                    </div>
+
                 </div>
             @endif
-            
+
         </div>
     </div>
 </div>

@@ -12,7 +12,7 @@
             </div>
         @endif
 
-        <form method="POST" action="{{ route('login') }}">
+        <form method="POST" action="{{ route('login') }}" class="login-form">
             @csrf
 
             <div>
@@ -39,7 +39,7 @@
                     </a>
                 @endif
 
-                <x-jet-button class="ml-4 bg-blue-500 hover:bg-blue-700">
+                <x-jet-button class="ml-4 bg-dark-blue hover:bg-blue-700">
                     {{ __('Log in') }}
                 </x-jet-button>
             </div>

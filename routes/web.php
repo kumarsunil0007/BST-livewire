@@ -69,6 +69,7 @@ Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified'])-
         Route::get('my-tasks', Mytask::class)->name('myTask');
         Route::get('profile', App\Http\Livewire\Staff\Profile::class)->name('profile');
         Route::get('start-task/{id}', App\Http\Livewire\Staff\StartTask::class)->name('start.task');
+        Route::get('view-task/{id}', ViewTask::class)->name('viewTask');
         // Route::get('search-image/{keyword}', [StaffTask::class, 'searchImage'])->name('searchImage');
     });
 

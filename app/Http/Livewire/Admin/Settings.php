@@ -22,7 +22,8 @@ class Settings extends Component
 
     public function store()
     {
-        dd($this->source_api);
+        // ddCompleted
+        ($this->source_api);
         Setting::updateOrCreate(['id'=>1],['source_api' => $this->source_api]);
         
         session()->flash(

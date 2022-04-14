@@ -6,29 +6,49 @@ use App\Models\Setting;
 use App\Models\StaffTask;
 use App\Models\Task;
 use App\Models\UserTaskImage;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Http;
+use Livewire\WithPagination;
 
 class StartTask extends Component
 {
-    public $task_id, $keyword, $multidimensional_diff;
+    // use WithPagination;
+
+    public $task_id, $keyword, $multidimensional_diff, $images;
     public $show = false;
-    public $images = [];
     public $queryFields = [];
     public $imageIds = [];
     public $imageStocks = [];
     public $removeImageStocks = [];
+
+    protected $privateKey;
+    public $search;
+    public $aicUrl = 'https://api.shutterstock.com/v2/images/';
+    public $page;
+    public $records;
+    public $nextPageUrl;
+    public $previousPageUrl;
 
     public function mount($id)
     {
         $this->task_id = $id;
         $this->queryFields['sort'] = 'popular';
         $this->queryFields['orientation'] = 'horizontal';
+        $this->queryFields['page'] = $this->page;
+        $this->queryFields['limit'] = 12;
+        $this->images = [];
+        $this->privateKey = env('STORYBLOCK_PRIVATE_KEY');
     }
 
     public function render()
     {
-        return view('livewire.staff.start-task');
+        $task = Task::find($this->task_id);
+        return view('livewire.staff.start-task', ['task' => $task]);
     }
 
     public function searchImage()
@@ -59,20 +79,56 @@ class StartTask extends Component
             curl_close($handle);
 
             $decodedResponse = json_decode($response);
-            $images = [];
-            foreach ($decodedResponse->data as $image) {
-                $images[] = [
-                    'id' => $image->id,
-                    'title' => $image->description,
-                    'previewUrl' => $image->assets->preview->url,
-                    'thumbnailUrl' => $image->assets->large_thumb->url,
-                ];
-            }
-            $this->images = $images;
-        } else {
-            # code...
+            // $images = [];
+            // foreach ($decodedResponse->data as $image) {
+            //     $images[] = [
+            //         'id' => $image->id,
+            //         'title' => $image->description,
+            //         'previewUrl' => $image->assets->preview->url,
+            //         'thumbnailUrl' => $image->assets->large_thumb->url,
+            //     ];
+            // }
+            // $this->images = $images;
+
+
+            $this->images = $decodedResponse->data;
+            $this->previousPageUrl = Arr::get($response, 'pagination.prev_url');
+            $this->nextPageUrl = Arr::get($response, 'pagination.prev_url');
+
+        } else if ($url->source_api == 'https://www.storyblocks.com') {
+
+            $resource = "/api/v2/videos/search";
+            
+            $storyBlockQuery = [
+                'APIKEY' => '',
+            ];
+
+            $curl = curl_init();
+
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => '/api/v2/images/search?APIKEY=%3Cstring%3E&EXPIRES=%3Cstring%3E&HMAC=%3Cstring%3E&project_id=%3Cstring%3E&user_id=%3Cstring%3E&keywords=%3Cstring%3E&content_type=%3Cstring%3E&orientation=%3Cstring%3E&color=%3Cstring%3E&has_transparency=%3Cboolean%3E&has_talent_released=%3Cboolean%3E&has_property_released=%3Cboolean%3E&is_editorial=%3Cboolean%3E&categories=%3Cstring%3E&page=%3Cint%3E&results_per_page=%3Cint%3E&sort_by=%3Cstring%3E&sort_order=%3Cstring%3E&required_keywords=%3Cstring%3E&filtered_keywords=%3Cstring%3E&translate=%3Cboolean%3E&source_language=%3Cstring%3E&contributor_id=%3Cint%3E&safe_search=%3Cboolean%3E&library_ids=%3Cstring%3E&exclude_library_ids=%3Cstring%3E&content_scores=%3Cboolean%3E',
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'GET',
+            ));
+
+            $response = curl_exec($curl);
+
+            curl_close($curl);
         }
-                
+    }
+
+    public function generateToken($resource)
+    {
+        if (session()->has('expire')) {
+
+            $expires = time() + 1000;
+            $hmac = hash_hmac("sha256", $resource, $this->privateKey . $expires);
+        }
     }
 
     public function selectImage($imageId, $title, $preview, $thumbnail)
@@ -103,20 +159,21 @@ class StartTask extends Component
     public function store()
     {
         $task = Task::find($this->task_id);
-        
+
         if (count($this->imageStocks) <= 0) {
             $this->show = true;
             session()->flash('error', 'Please select images');
             // return false;
         } else if (count($this->imageStocks) < $task->no_of_images) {
             session()->flash('error', 'Please select more images');
-        } else if(count($this->imageStocks) > $task->no_of_images) {
+        } else if (count($this->imageStocks) > $task->no_of_images) {
             session()->flash('error', 'You have exceed the limit of assigned images');
         } else if (count($this->imageStocks) == $task->no_of_images) {
             UserTaskImage::insert($this->imageStocks);
 
             $staffTask = StaffTask::updateOrCreate(['user_id' => Auth::user()->id, 'task_id' => $this->task_id], [
-                'is_completed' => 1
+                'is_completed' => 1,
+                'source' => 'shutter stock',
             ]);
             if ($staffTask) {
                 session()->flash('success', 'Task completed.');
@@ -126,5 +183,4 @@ class StartTask extends Component
             }
         }
     }
-
 }
