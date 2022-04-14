@@ -32,23 +32,23 @@
             <div class="mb-4">
               <label for="exampleFormControlInput1" class="block text-gray-700 text-sm font-bold mb-2">Name:</label>
               <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="exampleFormControlInput1" placeholder="Enter Name" wire:model="name">
-                  @error('name') <span class="text-red-500">{{ $message }}</span>@enderror
+                  @error('name') <span class="text-red-500 text-sm mt-2">{{ $message }}</span>@enderror
             </div>
             <div class="mb-4">
               <label for="exampleFormControlInput1" class="block text-gray-700 text-sm font-bold mb-2">No of images:</label>
               <input type="number" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="exampleFormControlInput1" placeholder="Enter No of images" wire:model="no_of_images" min="0">
-                  @error('no_of_images') <span class="text-red-500">{{ $message }}</span>@enderror
+                  @error('no_of_images') <span class="text-red-500 text-sm mt-2">{{ $message }}</span>@enderror
             </div>
             <div class="mb-4">
               <label for="exampleFormControlInput2" class="block text-gray-700 text-sm font-bold mb-2">Description:</label>
                 <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="exampleFormControlInput2" wire:model="description" placeholder="Enter Description"></textarea>
-                  @error('description') <span class="text-red-500">{{ $message }}</span>@enderror
+                  @error('description') <span class="text-red-500 text-sm mt-2">{{ $message }}</span>@enderror
             </div>
           </div>
         </div> 
         <!-- Modal footer -->
         <div class="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
-           <button wire:click.prevent="store()" type="button" class="inline-flex justify-center w-2/5 rounded-md border border-transparent px-4 py-2 bg-purple hover:bg-blue-700 text-base leading-6 font-medium text-white shadow-sm focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5">
+           <button wire:click.prevent="store()" type="button" class="inline-flex justify-center w-2/5 rounded-md border border-transparent px-4 py-2 bg-dark-blue hover:bg-blue-700 text-base leading-6 font-medium text-white shadow-sm focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5">
               Save
             </button>    
         </div> 

@@ -86,11 +86,11 @@
                             </td>
                             <td class="border px-4 py-2 text-gray-500 text-sm">
                                 <a href="{{ route('admin.viewTask', [$task->id]) }}"
-                                    class="bg-dark-blue hover:bg-dark-blue text-white font-bold py-1 px-2 rounded"
+                                    class="bg-dark-blue hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
                                     title="View"><i class="fa fa-eye"></i></a>
 
                                 <button wire:click="edit({{ $task->id }})"
-                                    class="bg-dark-blue hover:bg-dark-blue text-white font-bold py-1 px-2 rounded"
+                                    class="bg-dark-blue hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
                                     title="Edit"><i class="fa fa-edit"></i></button>
                                 <button wire:click="deleteId({{ $task->id }})"
                                     class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
