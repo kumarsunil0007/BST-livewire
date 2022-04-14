@@ -11,7 +11,7 @@ class Tasks extends Component
     use WithPagination;
 
     public $name, $no_of_images, $description, $task_id, $deleteId, $header;
-    public $isOpen = 0;
+    public $isOpen = false;
     public $isDelete = 0;
 
     public function mount()
