@@ -167,7 +167,7 @@ class StartTask extends Component
             $this->result = "Showing " . $this->start ." to ". $this->end ." of ". $decodedResponse['total_results']. " results" ;
 
             $this->start  = ($this->page * $this->perPage) + 1;
-
+          
             if ($this->page == $this->totalPage) {
                 $this->end  = $decodedResponse['total_results'];
             } else {

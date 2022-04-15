@@ -160,6 +160,7 @@
                     @endif
                 </section>
                 {{-- Image list --}}
+
                 @if ($images)
                     <section class="overflow-hidden text-gray-700 ">
                         <div class="container px-2 py-2 mx-auto ">
@@ -221,7 +222,7 @@
                             <div x-data="{ show: false }" x-init="setTimeout(() => show = false, 3000)"
                                 class="bg-green-200 text-black mr-4 px-2" style="display: none;">
                                 {{ session('message') }}
-                            </div>
+                            </div>               
                         </div>
                     </div>
                 @else
