@@ -125,6 +125,44 @@ return [
 
     'cipher' => 'AES-256-CBC',
 
+    'debug_blacklist' => [
+        '_ENV' => [
+            'APP_KEY',
+            'DB_PASSWORD',
+            'REDIS_PASSWORD',
+            'MAIL_PASSWORD',
+            'PUSHER_APP_KEY',
+            'PUSHER_APP_SECRET',
+            'AWS_ACCESS_KEY_ID',
+            'AWS_SECRET_ACCESS_KEY',
+            'SHUTTERSTOCK_API_TOKEN',
+            'SHUTTERSTOCK_SECRET',
+            'STORYBLOCK_PUBLIC_KEY',
+            'STORYBLOCK_PRIVATE_KEY',
+            'STORYBLOCK_USER_ID',
+            'STORYBLOCK_PROJECT_ID',
+        ],
+        '_SERVER' => [
+            'APP_KEY',
+            'DB_PASSWORD',
+            'REDIS_PASSWORD',
+            'MAIL_PASSWORD',
+            'PUSHER_APP_KEY',
+            'PUSHER_APP_SECRET',
+            'AWS_ACCESS_KEY_ID',
+            'AWS_SECRET_ACCESS_KEY',
+            'SHUTTERSTOCK_API_TOKEN',
+            'SHUTTERSTOCK_SECRET',
+            'STORYBLOCK_PUBLIC_KEY',
+            'STORYBLOCK_PRIVATE_KEY',
+            'STORYBLOCK_USER_ID',
+            'STORYBLOCK_PROJECT_ID',
+        ],
+        '_POST' => [
+            'password',
+        ],
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers
@@ -179,7 +217,7 @@ return [
         App\Providers\FortifyServiceProvider::class,
         App\Providers\JetstreamServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
-        
+
     ],
 
     /*

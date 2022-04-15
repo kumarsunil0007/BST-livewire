@@ -2,8 +2,10 @@
 
 namespace App\Http\Livewire\Admin;
 
+use App\Mail\WelcomeEmail;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -17,7 +19,7 @@ class Staff extends Component
 
     public function mount()
     {
-        $this->password = Hash::make(12345678);
+        $this->password = 12345678;
         $this->resetPage();
     }
 
@@ -35,6 +37,7 @@ class Staff extends Component
 
     public function openModal()
     {
+        $this->resetValidation();
         $this->isOpen = true;
     }
 
@@ -64,9 +67,9 @@ class Staff extends Component
     public function store()
     {
         $this->validate([
-            'name' => 'required',
+            'name' => 'required|max:255',
             'email' => 'required|email|max:255|regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix|unique:users,email,' . $this->staff_id,
-            'phone' => 'required|numeric',
+            'phone' => 'required|integer|numeric',
         ]);
         if ($this->staff_id) {
             User::updateOrCreate(['id' => $this->staff_id], [
@@ -78,10 +81,17 @@ class Staff extends Component
             $staff = User::create([
                 'name' => $this->name,
                 'email' => $this->email,
-                'password' => $this->password,
+                'password' => Hash::make($this->password),
                 'phone' => $this->phone
             ]);
             $staff->assignRole('staff');
+
+            try {
+                Mail::to($staff->email)->send(new WelcomeEmail($staff, $this->password));
+            } catch (\Exception $e) {
+                // 
+            }
+            
         }
 
         session()->flash(
