@@ -99,11 +99,11 @@ class StartTask extends Component
         } else if ($setting->source_api == 'https://www.storyblocks.com') {
             $privateKey = env('STORYBLOCK_PRIVATE_KEY');
             $publicKey = env('STORYBLOCK_PUBLIC_KEY');
-            $projectId = env('PROJECT_ID');
-            $userId = env('USER_ID');
+            $projectId = env('STORYBLOCK_PROJECT_ID');
+            $userId = env('STORYBLOCK_USER_ID');
             $expires = time() + 100;
 
-            $this->queryFields['APIKEY'] = $this->publicKey;
+            $this->queryFields['APIKEY'] = $publicKey;
             $this->queryFields['EXPIRES']
                 = $expires;
             $this->queryFields['HMAC'] = $this->getToken($expires);
