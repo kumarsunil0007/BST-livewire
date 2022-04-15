@@ -30,15 +30,20 @@ class StartTask extends Component
     public $search;
     public $page = 1;
     public $perPage = 10;
+    public $start;
+    public $end;
     public $totalPage;
     public $previousBtnDisable;
     public $nextBtnDisable;
+    public $result;
 
     public function mount($id)
     {
         $this->task_id = $id;
         $this->queryFields['orientation'] = 'horizontal';
         $this->images = [];
+        $this->start = 1;
+        $this->end = $this->perPage;
         if ($this->page == 1) {
             $this->previousBtnDisable = 'disabled';
         } else {
@@ -84,6 +89,8 @@ class StartTask extends Component
         }
         $this->queryFields['page'] = $this->page;
         $this->searchImage();
+        
+        // $this->end  = $this->end + $this->perPage;
     }
 
     public function searchImage()
@@ -157,6 +164,17 @@ class StartTask extends Component
             $this->images = $decodedResponse['results'];
             $this->totalPage = ceil($decodedResponse['total_results'] / $this->perPage);
             
+            $this->result = "Showing " . $this->start ." to ". $this->end ." of ". $decodedResponse['total_results']. " results" ;
+
+            $this->start  = ($this->page * $this->perPage) + 1;
+            
+            if ($this->page == $this->totalPage) {
+                $this->end  = $decodedResponse['total_results'];
+            } else {
+                $this->end  = $this->end + $this->perPage;
+            }
+            // dd($this->end);
+
             if (!$this->images) {
                 $this->resultMessage = 'No result found.';
             } else {

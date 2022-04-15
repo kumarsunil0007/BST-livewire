@@ -65,46 +65,49 @@
             <table class="table-fixed w-full">
                 <thead>
                     <tr class="bg-gray-100 text-left">
-                        <th class="px-4 py-2 font-medium text-sm">Task Name</th>
-                        <th class="px-4 py-2 font-medium text-sm">No. of images</th>
+                        <th class="px-4 py-2 font-medium text-sm w-60">Task Name</th>
                         <th class="px-4 py-2 font-medium text-sm">Description</th>
-                        <th class="px-4 py-2 font-medium text-sm">Status</th>
-                        <th class="px-4 py-2 font-medium text-sm">Actions</th>
+                        <th class="px-4 py-2 font-medium text-sm w-48">No. of images</th>
+                        <th class="px-4 py-2 font-medium text-sm w-48">Status</th>
+                        <th class="px-4 py-2 font-medium text-sm w-48">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse ($tasks as $task)
                         <tr>
-                            <td class="border px-4 py-2 task-name text-gray-500 text-sm">{{ $task->name }}</td>
-                            <td class="border px-4 py-2 text-gray-500 text-sm">{{ $task->no_of_images }}</td>
-                            <td class="border px-4 py-2 text-gray-500 text-sm">
+                            <td class="border px-4 py-2 task-name truncate text-gray-500 text-sm">{{ $task->name }}
+                            </td>
+                            <td class="border px-4 py-2 truncate text-gray-500 text-sm">
                                 {{ Str::limit($task->description, 150, '...') }}</td>
+                            <td class="border px-4 py-2 text-gray-500 text-sm">{{ $task->no_of_images }}</td>
                             <td class="border px-4 py-2 text-gray-500 text-sm">
                                 {{ $task->taskStatus ? ($task->taskStatus->is_completed == 0 ? 'In progress' : 'Completed') : 'No started yet' }}
                             </td>
                             <td class="border px-4 py-2 text-gray-500 text-sm">
                                 <a href="{{ route('admin.viewTask', [$task->id]) }}"
-                                    class="bg-dark-blue hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
+                                    class="bg-dark-blue hover:bg-blue-700 text-white font-bold py-1 px-2 rounded inline-block"
                                     title="View"><i class="fa fa-eye"></i></a>
                                 @if (!isset($task->taskStatus))
                                     <button wire:click="edit({{ $task->id }})"
-                                    class="bg-dark-blue hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
-                                    title="Edit"><i class="fa fa-edit"></i></button>
+                                        class="bg-dark-blue hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
+                                        title="Edit"><i class="fa fa-edit"></i></button>
                                 @elseif(isset($task->taskStatus) && $task->taskStatus->is_completed == 0)
-                                <button wire:click="edit({{ $task->id }})"
-                                    class="bg-dark-blue hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
-                                    title="Edit"><i class="fa fa-edit"></i></button>
+                                    <button wire:click="edit({{ $task->id }})"
+                                        class="bg-dark-blue hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
+                                        title="Edit"><i class="fa fa-edit"></i></button>
                                 @endif
-                                
+
                                 <button wire:click="deleteId({{ $task->id }})"
                                     class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
                                     title="Delete"><i class="fa fa-trash"></i></button>
                             </td>
                         </tr>
                     @empty
-                    <tr>
-                        <td colspan="5"><div class="border px-4 py-2 task-name text-gray-500 text-sm">No result found</div></td>
-                    </tr>
+                        <tr>
+                            <td colspan="5">
+                                <div class="border px-4 py-2 task-name text-gray-500 text-sm">No result found</div>
+                            </td>
+                        </tr>
                     @endforelse
                 </tbody>
             </table>

@@ -25,7 +25,7 @@ class Staff extends Component
 
     public function render()
     {
-        return view('livewire.admin.staff', ['staffs' => User::role('staff')->orderBy('id', 'DESC')->paginate(2)]);
+        return view('livewire.admin.staff', ['staffs' => User::role('staff')->orderBy('id', 'DESC')->paginate(20)]);
     }
 
     public function create()

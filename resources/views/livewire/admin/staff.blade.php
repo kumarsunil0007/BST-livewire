@@ -67,7 +67,7 @@
                         <th class="px-4 py-2 font-medium text-sm ">Name</th>
                         <th class="px-4 py-2 font-medium text-sm">Email</th>
                         <th class="px-4 py-2 font-medium text-sm">Phone</th>
-                        <th class="px-4 py-2 font-medium text-sm">Actions</th>
+                        <th class="px-4 py-2 font-medium text-sm w-48" >Actions</th>
                     </tr>
                 </thead>
                 <tbody>

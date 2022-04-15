@@ -1,8 +1,3 @@
-{{-- <x-slot name="header">
-    <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-        Tasks
-    </h2>
-</x-slot> --}}
 <nav class="flex py-3 px-5 text-gray-700 bg-dark-blue" aria-label="Breadcrumb">
     <div class="container mx-auto">
         <ol class="inline-flex items-center space-x-1 md:space-x-3">
@@ -55,31 +50,30 @@
         @endif
         <div class="flex justify-between table-heading my-3">
             <h5 class="flex justify-center items-center text-lg font-bold text-gray-700">My Tasks</h5>
-
         </div>
         <table class="table-fixed w-full">
             <thead>
                 <tr class="bg-gray-100 text-left">
-                    <th class="px-4 py-2 font-medium text-sm text-left">Task Name</th>
-                    <th class="px-4 py-2 font-medium text-sm">No. of images</th>
+                    <th class="px-4 py-2 font-medium text-sm text-left w-60">Task Name</th>
                     <th class="px-4 py-2 font-medium text-sm">Description</th>
-                    <th class="px-4 py-2 font-medium text-sm text-left">Action</th>
+                    <th class="px-4 py-2 font-medium text-sm w-48">No. of images</th>
+                    <th class="px-4 py-2 font-medium text-sm text-left w-48">Action</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse ($my_tasks->tasks as $task)
                     <tr>
-                        <td class="border px-4 py-2 text-gray-500 text-sm task-name">{{ $task->name }}</td>
-                        <td class="border px-4 py-2 text-gray-500 text-sm">{{ $task->no_of_images }}</td>
-                        <td class="border px-4 py-2 text-gray-500 text-sm">
+                        <td class="border px-4 py-2 truncate text-gray-500 text-sm task-name">{{ $task->name }}</td>
+                        <td class="border px-4 py-2 truncate text-gray-500 text-sm">
                             {{ Str::limit($task->description, 50, '...') }}</td>
-                        <td class="border px-4 py-2 text-gray-500 text-sm">
+                        <td class="border px-4 py-2 text-gray-500 text-sm">{{ $task->no_of_images }}</td>
+                        <td class="border px-4 py-2 text-gray-500 text-sm flex">
                             @if ($task->pivot->is_completed == 1)
                                 <span
-                                    class="w-20 py-2 rounded bg-gray-500 hover:bg-blue-700 text-white font-medium px-4 ">Completed</span>
+                                    class="w-48 py-1 rounded bg-gray-500 hover:bg-blue-700 text-white font-medium px-4 text-center mr-3 ">Completed</span>
                             @else
                                 <a href="{{ route('staff.start.task', [$task->id]) }}"
-                                    class="w-20 py-1 rounded bg-dark-blue hover:bg-blue-700 text-white font-medium px-4 ">Continue</a>
+                                    class="w-48 py-1 rounded bg-dark-blue hover:bg-blue-700 text-white font-medium px-4 text-center mr-3">Continue</a>
                             @endif
                             <a href="{{ route('staff.viewTask', [$task->id]) }}"
                                 class="bg-dark-blue hover:bg-blue-700 text-white font-medium py-1 px-2 rounded"
@@ -88,7 +82,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="5">
+                        <td colspan="4">
                             <div class="border px-4 py-2 task-name text-gray-500 text-sm">No result found.</div>
                         </td>
                     </tr>
