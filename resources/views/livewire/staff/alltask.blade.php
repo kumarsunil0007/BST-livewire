@@ -74,7 +74,7 @@
                                 {{ Str::limit($task->description, 150, '...') }}</td>
                             <td class="border px-4 py-2 text-gray-500 text-sm">{{ $task->no_of_images }}</td>
                             <td class="border px-4 py-2 text-gray-500 text-sm">
-                                {{ $task->taskStatus ? ($task->taskStatus->is_completed == 0 ? 'In progress' : 'Completed') : 'No started yet' }}
+                                {!! $task->taskStatus ? ($task->taskStatus->is_completed == 0 ? '<div class="inline-flex items-center justify-center px-2 py-1 text-sm font-medium leading-none text-white bg-dark-blue rounded-full">In Progress</div>' : 'Completed') : 'No started yet' !!}
                             </td>
                             <td class="border px-4 py-2 text-gray-500 text-sm">
                                 <a href="{{ route('staff.viewTask', [$task->id]) }}"

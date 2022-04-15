@@ -15,7 +15,11 @@ class SettingSeeder extends Seeder
      */
     public function run()
     {
-        $setting  = new Setting;
-        $setting->save();
+        Setting::create([
+            'source_name' => 'shutter stock',
+            'source_api' => 'https://www.shutterstock.com',
+            'source_url' => 'https://www.shutterstock.com',
+        ]);
+        
     }
 }

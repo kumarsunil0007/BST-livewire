@@ -21,7 +21,7 @@ class Tasks extends Component
 
     public function render()
     {
-        return view('livewire.admin.tasks', ['tasks' => Task::with(['taskStatus'])->orderBy('id', 'DESC')->paginate(2)]);
+        return view('livewire.admin.tasks', ['tasks' => Task::with(['taskStatus'])->orderBy('id', 'DESC')->paginate(20)]);
     }
 
     public function create()

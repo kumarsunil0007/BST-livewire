@@ -69,7 +69,7 @@ class Staff extends Component
         $this->validate([
             'name' => 'required|max:255',
             'email' => 'required|email|max:255|regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix|unique:users,email,' . $this->staff_id,
-            'phone' => 'required|integer|numeric',
+            'phone' => 'required|numeric',
         ]);
         if ($this->staff_id) {
             User::updateOrCreate(['id' => $this->staff_id], [
