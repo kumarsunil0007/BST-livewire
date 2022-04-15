@@ -1,4 +1,7 @@
 <x-slot name="header">
+    {{-- <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        Staff
+    </h2> --}}
 </x-slot>
 <div class="">
     <nav class="flex py-3 px-5 text-gray-700 bg-dark-blue" aria-label="Breadcrumb">
@@ -23,7 +26,7 @@
                                 d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
                                 clip-rule="evenodd"></path>
                         </svg>
-                        <div class="ml-1 text-sm font-medium text-white">Staff</div>
+                        <div class="ml-1 text-sm font-medium text-white">Task</div>
                     </div>
                 </li>
             </ol>
@@ -62,7 +65,7 @@
             <table class="table-fixed w-full">
                 <thead>
                     <tr class="bg-gray-100 text-left">
-                        <th class="px-4 py-2 font-medium text-sm w-60" >Task Name</th>                        
+                        <th class="px-4 py-2 font-medium text-sm w-60">Task Name</th>
                         <th class="px-4 py-2 font-medium text-sm">Description</th>
                         <th class="px-4 py-2 font-medium text-sm w-48">No. of images</th>
                         <th class="px-4 py-2 font-medium text-sm w-48">Status</th>
@@ -70,9 +73,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($tasks as $task)
+                    @forelse ($tasks as $task)
                         <tr>
-                            <td class="border px-4 py-2 task-name truncate text-gray-500 text-sm">{{ $task->name }}</td>                            
+                            <td class="border px-4 py-2 task-name truncate text-gray-500 text-sm">{{ $task->name }}
+                            </td>
                             <td class="border px-4 py-2 truncate text-gray-500 text-sm">
                                 {{ Str::limit($task->description, 150, '...') }}</td>
                             <td class="border px-4 py-2 text-gray-500 text-sm">{{ $task->no_of_images }}</td>
@@ -81,18 +85,30 @@
                             </td>
                             <td class="border px-4 py-2 text-gray-500 text-sm">
                                 <a href="{{ route('admin.viewTask', [$task->id]) }}"
-                                    class="bg-dark-blue hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
+                                    class="bg-dark-blue hover:bg-blue-700 text-white font-bold py-1 px-2 rounded inline-block"
                                     title="View"><i class="fa fa-eye"></i></a>
+                                @if (!isset($task->taskStatus))
+                                    <button wire:click="edit({{ $task->id }})"
+                                        class="bg-dark-blue hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
+                                        title="Edit"><i class="fa fa-edit"></i></button>
+                                @elseif(isset($task->taskStatus) && $task->taskStatus->is_completed == 0)
+                                    <button wire:click="edit({{ $task->id }})"
+                                        class="bg-dark-blue hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
+                                        title="Edit"><i class="fa fa-edit"></i></button>
+                                @endif
 
-                                <button wire:click="edit({{ $task->id }})"
-                                    class="bg-dark-blue hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
-                                    title="Edit"><i class="fa fa-edit"></i></button>
                                 <button wire:click="deleteId({{ $task->id }})"
                                     class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
                                     title="Delete"><i class="fa fa-trash"></i></button>
                             </td>
                         </tr>
-                    @endforeach
+                    @empty
+                        <tr>
+                            <td colspan="5">
+                                <div class="border px-4 py-2 task-name text-gray-500 text-sm">No result found</div>
+                            </td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
             <div class="my-4">{{ $tasks->links() }}</div>

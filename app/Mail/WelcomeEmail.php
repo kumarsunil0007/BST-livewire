@@ -10,6 +10,7 @@ use Illuminate\Queue\SerializesModels;
 class WelcomeEmail extends Mailable
 {
     use Queueable, SerializesModels;
+    
     protected $staff, $password;
     /**
      * Create a new message instance.
@@ -29,6 +30,6 @@ class WelcomeEmail extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.welcome_email')->with(['staff' => $this->staff, 'password' => $this->password]);
+        return $this->markdown('emails.welcome-email')->with(['staff' => $this->staff, 'password' => $this->password]);
     }
 }
