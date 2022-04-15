@@ -65,7 +65,7 @@
                     <tr>
                         <td class="border px-4 py-2 truncate text-gray-500 text-sm task-name">{{ $task->name }}</td>
                         <td class="border px-4 py-2 truncate text-gray-500 text-sm">
-                            {{ Str::limit($task->description, 50, '...') }}</td>
+                            {{ Str::limit($task->description, 150, '...') }}</td>
                         <td class="border px-4 py-2 text-gray-500 text-sm">{{ $task->no_of_images }}</td>
                         <td class="border px-4 py-2 text-gray-500 text-sm flex">
                             @if ($task->pivot->is_completed == 1)

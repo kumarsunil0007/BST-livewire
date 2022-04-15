@@ -127,7 +127,7 @@ class StartTask extends Component
             $this->totalPage = ceil($decodedResponse['total_count'] / $decodedResponse['per_page']);
             
             if (!$this->images) {
-                $this->resultMessage = 'No result found.';
+                $this->resultMessage = '<div class="text-center">No result found.</div>';
             } else {
                 $this->resultMessage = '';
             }
@@ -167,7 +167,7 @@ class StartTask extends Component
             $this->result = "Showing " . $this->start ." to ". $this->end ." of ". $decodedResponse['total_results']. " results" ;
 
             $this->start  = ($this->page * $this->perPage) + 1;
-            
+          
             if ($this->page == $this->totalPage) {
                 $this->end  = $decodedResponse['total_results'];
             } else {
@@ -176,7 +176,7 @@ class StartTask extends Component
             // dd($this->end);
 
             if (!$this->images) {
-                $this->resultMessage = 'No result found.';
+                $this->resultMessage = '<div class="text-center">No result found.</div>';
             } else {
                 $this->resultMessage = '';
             }

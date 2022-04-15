@@ -160,8 +160,9 @@
                     @endif
                 </section>
                 {{-- Image list --}}
-                <section class="overflow-hidden text-gray-700 ">
-                    @if ($images)
+
+                @if ($images)
+                    <section class="overflow-hidden text-gray-700 ">
                         <div class="container px-2 py-2 mx-auto ">
                             <div class="flex flex-wrap -m-1 md:-m-2">
                                 @if ($setting->source_url == 'https://www.shutterstock.com')
@@ -193,41 +194,41 @@
                                 @endif
                             </div>
                         </div>
-                    @else
-                        <div class="text-center">{{ $resultMessage }}</div>
-                    @endif
-                </section>
+                    </section>
 
-                <div div x-show="pagination" class="flex items-center space-x-1 justify-end py-3">
-                    {{-- <div>{{$result}}</div> --}}
-                    <div class="flex items-center space-x-1 justify-end">
-                        <button type="button" wire:click.prevent="previous()"
-                            class="flex items-center px-4 py-2 text-gray-500 bg-gray-300 rounded-md"
-                            {{ $previousBtnDisable }}>
-                            Previous
-                        </button>
-                        <button type="button" wire:click.prevent="next()"
-                            class="px-4 py-2 font-bold text-gray-500 bg-gray-300 rounded-md hover:bg-blue-400"
-                            {{ $nextBtnDisable }}>
-                            Next
-                        </button>
-                    </div>
-                </div>
-
-                <div x-show="open">
-                    <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                        <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
-                            <button wire:click.prevent="store()" type="button"
-                                class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-dark-blue text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5">
-                                Save
+                    <div x-show="pagination">
+                        <div class="flex items-center space-x-1 justify-end py-3">
+                            <button type="button" wire:click.prevent="previous()"
+                                class="flex items-center px-4 py-2 text-gray-500 bg-gray-300 rounded-md"
+                                {{ $previousBtnDisable }}>
+                                Previous
                             </button>
-                        </span>
-                        <div x-data="{ show: false }" x-init="setTimeout(() => show = false, 3000)" class="bg-green-200 text-black mr-4 px-2"
-                            style="display: none;">
-                            {{ session('message') }}
+                            <button type="button" wire:click.prevent="next()"
+                                class="px-4 py-2 font-bold text-gray-500 bg-gray-300 rounded-md hover:bg-blue-400"
+                                {{ $nextBtnDisable }}>
+                                Next
+                            </button>
                         </div>
                     </div>
-                </div>
+
+                    <div x-show="open">
+                        <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                            <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
+                                <button wire:click.prevent="store()" type="button"
+                                    class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-dark-blue text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5">
+                                    Save
+                                </button>
+                            </span>
+                            <div x-data="{ show: false }" x-init="setTimeout(() => show = false, 3000)"
+                                class="bg-green-200 text-black mr-4 px-2" style="display: none;">
+                                {{ session('message') }}
+                            </div>               
+                        </div>
+                    </div>
+                @else
+                    {!! $resultMessage !!}
+                @endif
+
             </form>
         </div>
     </div>
