@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,800&display=swap');
+
+body{
+    font-family: 'Poppins', sans-serif;
+}
+.main-menu a, .menu-right button {
+    font-size: 15px;
+    text-transform: capitalize;
+    border-bottom: 0px;
+}
+.task-name {
+    text-transform: capitalize;
+}
+.menu-right button i {
+    background: #061395;
+    border-radius: 50%;
+    width: 22px;
+    color: #Fff;
+    font-size: 13px;
+    height: 22px;
+    text-align: center;
+    justify-content: center;
+    margin-right: 4px;
+    align-items: center;
+    display: flex;
+}
+.table-heading h4 {
+    font-size: 22px;
+}
+.search-images:focus img{
+    box-shadow: 0px 0px 4px 2px #ddd;
+    border: 1px solid #061395;
+}
+.remove-image {
+    background: #000;
+    color: #fff;
+    border-radius: 50%;
+    width: 20px;
+    top: 10px !important;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.menu-right a {
+    font-weight: bold;
+}
+.bg-dark-blue{
+    background-color: #061395;
+}
+.login-form label{
+    font-family: 'Poppins', sans-serif;
+}
+.border-r-0{border-right-width: 0;}
+.w-1\/5{width: 20%}

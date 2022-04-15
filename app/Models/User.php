@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -19,6 +20,7 @@ class User extends Authenticatable
     use Notifiable;
     use TwoFactorAuthenticatable;
     use HasRoles;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -64,12 +66,22 @@ class User extends Authenticatable
 
     public function tasks()
     {
-        $this->belongsToMany(Task::class, StaffTask::class, 'user_id', 'task_id', 'id', 'id');
+        return $this->belongsToMany(Task::class, StaffTask::class, 'user_id', 'task_id', 'id', 'id')->withPivot('is_completed','source');
     }
 
     public function userTaskStatus()
     {
-        $this->hasMany(StaffTask::class, 'user_id', 'id');
+        return $this->hasMany(StaffTask::class, 'user_id', 'id');
+    }
+
+    public function userImages()
+    {
+        return $this->hasMany(UserTaskImage::class, 'user_id', 'id');
+    }
+
+    public function currentTask()
+    {
+        return StaffTask::where('is_completed', 0)->first();
     }
 
 }

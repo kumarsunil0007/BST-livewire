@@ -2,21 +2,36 @@
 
 namespace App\Http\Livewire\Staff;
 
+use App\Models\Setting;
 use App\Models\StaffTask;
 use App\Models\Task;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Alltask extends Component
 {
-    public $tasks, $is_completed, $user_id, $staff_id, $task_id;
+    use WithPagination;
+
+    public $user_id, $task_id, $keyword;
     public $isOpen = 0;
+    public $images = [];
+    public $ids = [];
+
+    public $queryFields = [];
+    
+    public function mount()
+    {
+        $this->resetPage();
+        $this->queryFields['query'] = $this->keyword;
+        $this->queryFields['sort'] = 'popular';
+        $this->queryFields['orientation'] = 'horizontal';
+    }
 
     public function render()
     {
-        // $this->tasks = Task::with(['users'])->get();
-        $this->tasks = Task::all();
-        return view('livewire.staff.alltask');
+        return view('livewire.staff.alltask', ['tasks' => Task::with(['taskStatus'])->orderBy('id', 'DESC')->paginate(20)]);
     }
 
     public function openModal()
@@ -29,32 +44,14 @@ class Alltask extends Component
         $this->isOpen = false;
     }
 
-    public function store()
-    {
-            
-        $staffTask = new StaffTask;
-        $staffTask->user_id = Auth::user()->id;
-        $staffTask->task_id = $this->task_id;
-        $staffTask->save();
-
-        session()->flash(
-            'message', 'Task Started Successfully.'
-        );
-
-        $this->closeModal();
-        $this->resetInputFields();
-    }
-
     public function start($id)
     {
+        $setting = Setting::first();
+
         $staffTask = StaffTask::updateOrCreate(['user_id'=>Auth::user()->id, 'task_id' => $id],[
-            'is_completed' => 0
+            'is_completed' => 0,
+            'source' => $setting->source_name,
         ]);
-        if ($staffTask) {
-            session()->flash('message', 'Task Started Successfully.');
-        } else {
-            session()->flash('message','Server Error!.');
-        }
-                
+        return redirect()->route('staff.start.task', $id);
     }
 }

@@ -2,40 +2,58 @@
 
 namespace App\Http\Livewire\Admin;
 
+use App\Mail\WelcomeEmail;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Staff extends Component
 {
-    public $staffs, $name, $email, $password, $phone, $staff_id;
+    use WithPagination;
+
+    public $name, $email, $password, $phone, $staff_id, $header;
     public $isOpen = 0;
+    public $isDelete = 0;
 
     public function mount()
     {
-        $this->password = Hash::make(12345678);
+        $this->password = 12345678;
+        $this->resetPage();
     }
-    
+
     public function render()
     {
-        $this->staffs = User::role('staff')->get();
-        return view('livewire.admin.staff');
+        return view('livewire.admin.staff', ['staffs' => User::role('staff')->orderBy('id', 'DESC')->paginate(20)]);
     }
 
     public function create()
     {
         $this->resetInputFields();
+        $this->header = 'Add New Staff';
         $this->openModal();
     }
 
     public function openModal()
     {
+        $this->resetValidation();
         $this->isOpen = true;
     }
 
     public function closeModal()
     {
         $this->isOpen = false;
+    }
+
+    public function openDeleteModal()
+    {
+        $this->isDelete = true;
+    }
+
+    public function closeDeleteModal()
+    {
+        $this->isDelete = false;
     }
 
     private function resetInputFields()
@@ -49,9 +67,9 @@ class Staff extends Component
     public function store()
     {
         $this->validate([
-            'name' => 'required',
+            'name' => 'required|max:255',
             'email' => 'required|email|max:255|regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix|unique:users,email,' . $this->staff_id,
-            'phone' => 'required|numeric',
+            'phone' => 'required|integer|numeric',
         ]);
         if ($this->staff_id) {
             User::updateOrCreate(['id' => $this->staff_id], [
@@ -63,14 +81,21 @@ class Staff extends Component
             $staff = User::create([
                 'name' => $this->name,
                 'email' => $this->email,
-                'password' => $this->password,
+                'password' => Hash::make($this->password),
                 'phone' => $this->phone
             ]);
             $staff->assignRole('staff');
+
+            try {
+                Mail::to($staff->email)->send(new WelcomeEmail($staff, $this->password));
+            } catch (\Exception $e) {
+                // 
+            }
+            
         }
 
         session()->flash(
-            'message',
+            'success',
             $this->staff_id ? 'Staff Updated Successfully.' : 'Staff Created Successfully.'
         );
 
@@ -80,6 +105,7 @@ class Staff extends Component
 
     public function edit($id)
     {
+        $this->header = 'Edit Staff';
         $staff = User::findOrFail($id);
         $this->staff_id = $id;
         $this->name = $staff->name;
@@ -89,9 +115,18 @@ class Staff extends Component
         $this->openModal();
     }
 
+    public function deleteId($id)
+    {
+        $this->deleteId = $id;
+        $this->openDeleteModal();
+    }
+
     public function delete($id)
     {
-        User::find($id)->delete();
-        session()->flash('message', 'Staff Deleted Successfully.');
+        $staff = User::find($id);
+        $staff->tasks()->delete();
+        $staff->delete();
+        $this->closeDeleteModal();
+        session()->flash('success', 'Staff Deleted Successfully.');
     }
 }

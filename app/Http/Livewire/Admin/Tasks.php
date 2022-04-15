@@ -4,32 +4,52 @@ namespace App\Http\Livewire\Admin;
 
 use App\Models\Task;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Tasks extends Component
 {
-    public $tasks, $name, $no_of_images, $description, $task_id;
-    public $isOpen = 0;
+    use WithPagination;
+
+    public $name, $no_of_images, $description, $task_id, $deleteId, $header;
+    public $isOpen = false;
+    public $isDelete = 0;
+
+    public function mount()
+    {
+        $this->resetPage();
+    }
 
     public function render()
     {
-        $this->tasks = Task::all();
-        return view('livewire.admin.tasks');
+        return view('livewire.admin.tasks', ['tasks' => Task::with(['taskStatus'])->orderBy('id', 'DESC')->paginate(20)]);
     }
 
     public function create()
     {
         $this->resetInputFields();
+        $this->header = 'Create New Task';
         $this->openModal();
     }
 
     public function openModal()
     {
+        $this->resetValidation();
         $this->isOpen = true;
     }
 
     public function closeModal()
     {
         $this->isOpen = false;
+    }
+
+    public function openDeleteModal()
+    {
+        $this->isDelete = true;
+    }
+
+    public function closeDeleteModal()
+    {
+        $this->isDelete = false;
     }
 
     private function resetInputFields()
@@ -48,8 +68,8 @@ class Tasks extends Component
     public function store()
     {
         $this->validate([
-            'name' => 'required',
-            'no_of_images' => 'required',
+            'name' => 'required|max:255',
+            'no_of_images' => 'required|integer|min:1',
             'description' => 'required',
         ]);
         if ($this->task_id) {
@@ -67,7 +87,7 @@ class Tasks extends Component
         }
 
         session()->flash(
-            'message',
+            'success',
             $this->task_id ? 'Task Updated Successfully.' : 'Task Created Successfully.'
         );
 
@@ -84,6 +104,7 @@ class Tasks extends Component
      */
     public function edit($id)
     {
+        $this->header = 'Edit Task';
         $task = Task::findOrFail($id);
         $this->task_id = $id;
         $this->name = $task->name;
@@ -91,6 +112,12 @@ class Tasks extends Component
         $this->description = $task->description;
 
         $this->openModal();
+    }
+
+    public function deleteId($id)
+    {
+        $this->deleteId = $id;
+        $this->openDeleteModal();
     }
 
     /**
@@ -101,6 +128,7 @@ class Tasks extends Component
     public function delete($id)
     {
         Task::find($id)->delete();
-        session()->flash('message', 'Task Deleted Successfully.');
+        $this->closeDeleteModal();
+        session()->flash('success', 'Task Deleted Successfully.');
     }
 }
