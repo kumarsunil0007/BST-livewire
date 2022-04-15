@@ -35,7 +35,7 @@
                                 d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
                                 clip-rule="evenodd"></path>
                         </svg>
-                        <a href="#" class="ml-1 text-sm font-medium text-white">Tasks Details</a>
+                        <div class="ml-1 text-sm font-medium text-white">Tasks Details</div>
                     </div>
                 </li>
             </ol>
@@ -55,9 +55,7 @@
             <hr />
             @if ($task->taskStatus)
                 <form class="w-full pt-5">
-
                     <div class="md:flex md:items-center mb-4">
-
                         <div class="md:w-1/2 mb-6 md:mb-0">
                             <label class="block text-gray-500 font-medium text-sm md:text-left mb-1 md:mb-3 pr-4 px-2"
                                 for="inline-full-name">Task Name : <strong>{{ ucwords($task->name) }}</strong></label>
@@ -67,9 +65,7 @@
                             <label class="block text-gray-500 font-medium text-sm md:text-left mb-1 md:mb-3 pr-4 px-2"
                                 for="inline-full-name">Status : <span
                                     class="inline-flex items-center justify-center px-2 py-1 text-sm font-medium leading-none text-white bg-dark-blue rounded-full">{{ $task->taskStatus->is_completed == 0 ? 'In progress' : 'Completed' }}</span></label>
-
                         </div>
-
                     </div>
                     <div class="md:flex md:items-center mb-4">
                         <div class="md:w-1/2 mb-6 md:mb-0">
@@ -81,11 +77,8 @@
                         <div class="md:w-1/2 mb-6 md:mb-0">
                             <label class="block text-gray-500 font-medium text-sm md:text-left md:mb-2 mb-3 pr-4 px-2"
                                 for="inline-full-name">Image Provider :
-                                <strong>{{ $task->taskStatus ? ucwords($task->taskStatus->source) : 'N/A' }}</strong></label>
+                                <strong>{{ $task->taskStatus? ($task->taskStatus->is_completed == 1? ucwords($task->taskStatus->source): ucwords($setting->source_name)): 'N/A' }}</strong></label>
                         </div>
-
-
-
                     </div>
                     <div class="md:flex md:items-center mb-4">
                         <div class="w-full mb-6 md:mb-0">
@@ -98,7 +91,6 @@
                         <h5
                             class="flex justify-start items-start font-bold text-lg text-dark-blue bg-gray-100 w-full py-2 px-2">
                             Staff Details</h5>
-
                     </div>
                     <hr />
 
@@ -198,7 +190,6 @@
 
                 </div>
             @endif
-
         </div>
     </div>
 </div>

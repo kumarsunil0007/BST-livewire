@@ -87,7 +87,7 @@
                 </div>
                 <div class="md:w-1/2 px-3 mb-6 md:mb-0">
                     <label class="block text-gray-500 font-medium md:text-left text-sm mb-1 md:mb-3 pr-4">Image Provider
-                        : <strong>{{ $task->taskStatus ? ucwords($task->taskStatus->source) : 'N/A' }}</strong>
+                        : <strong>{{ $setting ? ucwords($setting->source_name) : 'N/A' }}</strong>
                     </label>
 
 
@@ -103,7 +103,7 @@
             </div>
 
             <form>
-                <div x-data="{ open: false }">
+                <div x-data="{ open: false, pagination: false }">
                     <div class="bg-white pt-5 pb-4">
                         <div class="flex justify-between table-heading">
                             <h5
@@ -121,13 +121,14 @@
                                     <span class="text-red-500 text-sm mt-2">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <button wire:click.prevent="searchImage()" type="button" @click="open = true"
+                            <button wire:click.prevent="searchImage()" type="button"
+                                @click="open = true;pagination = true"
                                 class="inline-flex ml-3 justify-center w-full rounded-md border bg-dark-blue border-gray-300 px-8 py-2 bg-white text-white leading-6 font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:border-blue-300  transition ease-in-out duration-150 sm:text-sm sm:leading-5 w-12 h-10 ms-2">
                                 Search
                             </button>
                         </div>
                     </div>
-                    {{-- Image List --}}
+                    {{-- Selected image List --}}
                     <section class="overflow-hidden text-gray-700 ">
                         <div class="container px-4 py-2 mx-auto lg:pt-12 ">
                             <div class="flex flex-wrap -m-1 md:-m-2">
@@ -150,48 +151,55 @@
                             </div>
                         </div>
                     </section>
-
+                    {{-- Image list --}}
                     <section class="overflow-hidden text-gray-700 ">
                         <div class="container px-2 py-2 mx-auto ">
                             <div class="flex flex-wrap -m-1 md:-m-2">
-                                @if ($setting->source_api == 'https://www.shutterstock.com')
+                                @if ($setting->source_url == 'https://www.shutterstock.com')
                                     @forelse ($images as $image)
                                         <a href="javascript:void(0)"
-                                            wire:click="selectImage({{ $image['id'] }},'{{ $image['title'] }}','{{ $image['previewUrl'] }}','{{ $image['thumbnailUrl'] }}')"
+                                            wire:click="selectImage({{ $image['id'] }},'{{ $image['description'] }}','{{ $image['assets']['preview']['url'] }}','{{ $image['assets']['large_thumb']['url'] }}')"
                                             class="flex flex-wrap w-1/4 border-solid border-2 mr-3 mb-5 search-images">
                                             <div class="p-1 md:p-2">
                                                 <img alt="gallery" class="block object-cover object-center rounded-lg"
-                                                    src="{{ $image['thumbnailUrl'] }}">
+                                                    src="{{ $image['assets']['large_thumb']['url'] }}">
                                             </div>
                                         </a>
                                     @empty
+                                        <div>{{ $resultMessage }}</div>
                                     @endforelse
-                                @elseif ($setting->source_api == 'https://www.storyblocks.com')
+                                @elseif ($setting->source_url == 'https://www.storyblocks.com')
                                     @forelse ($images as $image)
                                         <a href="javascript:void(0)"
-                                            wire:click="selectImage({{ $image['id'] }},'{{ $image['title'] }}','{{ $image['previewUrl'] }}','{{ $image['thumbnailUrl'] }}')"
+                                            wire:click="selectImage({{ $image['id'] }},'{{ $image['title'] }}','{{ $image['preview_url'] }}','{{ $image['thumbnail_url'] }}')"
                                             class="flex flex-wrap w-1/4 border-solid border-2 mr-3 mb-5 search-images">
                                             <div class=" p-1 md:p-2">
                                                 <img alt="gallery" class="block object-cover object-center rounded-lg"
-                                                    src="{{ $image['thumbnailUrl'] }}">
+                                                    src="{{ $image['thumbnail_url'] }}">
                                             </div>
                                         </a>
                                     @empty
+                                        <div>{{ $resultMessage }}</div>
                                     @endforelse
                                 @endif
 
                             </div>
                         </div>
                     </section>
-                    <nav aria-label="pagination">
-                        @if ($previousPageUrl)
-                            <a href="?page={{ $page - 1 }}">Previous</a>
-                        @endif
 
-                        @if ($nextPageUrl)
-                            <a href="?page={{ $page + 1 }}">Next</a>
-                        @endif
-                    </nav>
+                    <div div x-show="pagination" class="flex items-center space-x-1 justify-end py-3">
+                        <button type="button" wire:click.prevent="previous()"
+                            class="flex items-center px-4 py-2 text-gray-500 bg-gray-300 rounded-md"
+                            {{ $previousBtnDisable }}>
+                            Previous
+                        </button>
+                        <button type="button" wire:click.prevent="next()"
+                            class="px-4 py-2 font-bold text-gray-500 bg-gray-300 rounded-md hover:bg-blue-400"
+                            {{ $nextBtnDisable }}>
+                            Next
+                        </button>
+                    </div>
+                    
                     <div x-show="open">
                         <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                             <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">

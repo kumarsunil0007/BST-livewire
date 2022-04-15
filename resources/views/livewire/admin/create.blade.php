@@ -24,17 +24,17 @@
             <div class="mb-4">
               <label for="exampleFormControlInput1" class="block text-gray-700 text-sm font-bold mb-2">Name:</label>
               <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="exampleFormControlInput1" placeholder="Enter Name" wire:model="name">
-                  @error('name') <span class="text-red-500 text-sm mt-2">{{ $message }}</span>@enderror
+                  @error('name') <span class="text-red-500 text-sm mt-2" id="name-error">{{ $message }}</span>@enderror
             </div>
             <div class="mb-4">
-              <label for="exampleFormControlInput1" class="block text-gray-700 text-sm font-bold mb-2">No of images:</label>
-              <input type="number" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="exampleFormControlInput1" placeholder="Enter No of images" wire:model="no_of_images" min="0">
-                  @error('no_of_images') <span class="text-red-500 text-sm mt-2">{{ $message }}</span>@enderror
+              <label for="exampleFormControlInput1" class="block text-gray-700 text-sm font-bold mb-2">No. of images:</label>
+              <input type="number" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="exampleFormControlInput1" placeholder="Enter No of images" wire:model="no_of_images" min="1">
+                  @error('no_of_images') <span class="text-red-500 text-sm mt-2" id="no_of_images-error">{{ $message }}</span>@enderror
             </div>
             <div class="mb-4">
               <label for="exampleFormControlInput2" class="block text-gray-700 text-sm font-bold mb-2">Description:</label>
                 <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="exampleFormControlInput2" wire:model="description" placeholder="Enter Description"></textarea>
-                  @error('description') <span class="text-red-500 text-sm mt-2">{{ $message }}</span>@enderror
+                  @error('description') <span class="text-red-500 text-sm mt-2" id="description-error">{{ $message }}</span>@enderror
             </div>
           </div>
         </div> 

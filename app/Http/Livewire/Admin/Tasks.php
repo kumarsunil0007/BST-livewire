@@ -21,7 +21,7 @@ class Tasks extends Component
 
     public function render()
     {
-        return view('livewire.admin.tasks', ['tasks' => Task::orderBy('id', 'DESC')->paginate(20)]);
+        return view('livewire.admin.tasks', ['tasks' => Task::with(['taskStatus'])->orderBy('id', 'DESC')->paginate(2)]);
     }
 
     public function create()
@@ -33,7 +33,7 @@ class Tasks extends Component
 
     public function openModal()
     {
-
+        $this->resetValidation();
         $this->isOpen = true;
     }
 
@@ -41,7 +41,7 @@ class Tasks extends Component
     {
         $this->isOpen = false;
     }
-    
+
     public function openDeleteModal()
     {
         $this->isDelete = true;
@@ -68,8 +68,8 @@ class Tasks extends Component
     public function store()
     {
         $this->validate([
-            'name' => 'required',
-            'no_of_images' => 'required',
+            'name' => 'required|max:255',
+            'no_of_images' => 'required|integer|min:1',
             'description' => 'required',
         ]);
         if ($this->task_id) {

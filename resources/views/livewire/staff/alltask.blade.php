@@ -1,5 +1,5 @@
 <div class="">
-<nav class="flex py-3 px-5 text-gray-700 bg-dark-blue" aria-label="Breadcrumb">
+    <nav class="flex py-3 px-5 text-gray-700 bg-dark-blue" aria-label="Breadcrumb">
         <div class="container mx-auto">
             <ol class="inline-flex items-center space-x-1 md:space-x-3">
                 <li class="inline-flex items-center">
@@ -66,11 +66,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($tasks as $task)
+                    @forelse ($tasks as $task)
                         <tr>
                             <td class="border px-4 py-2 text-gray-500 text-sm flex-1">{{ ucwords($task->name) }}</td>
                             <td class="border px-4 py-2 text-gray-500 text-sm">{{ $task->no_of_images }}</td>
-                            <td class="border px-4 py-2 text-gray-500 text-sm">{{ Str::limit($task->description, 50, '...') }}</td>
+                            <td class="border px-4 py-2 text-gray-500 text-sm">
+                                {{ Str::limit($task->description, 150, '...') }}</td>
                             <td class="border px-4 py-2 text-gray-500 text-sm">
                                 {{ $task->taskStatus ? ($task->taskStatus->is_completed == 0 ? 'In progress' : 'Completed') : 'No started yet' }}
                             </td>
@@ -80,13 +81,18 @@
                                     title="View"><i class="fa fa-eye"></i></a>
                                 @if (!$task->taskStatus)
                                     <button wire:click="start({{ $task->id }})"
-                                        class="bg-green-600 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded">Start
+                                        class="bg-green-600 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded"
+                                        {{ Auth::user()->currentTask() ? 'disabled' : '' }}>Start
                                     </button>
                                 @endif
 
                             </td>
                         </tr>
-                    @endforeach
+                    @empty
+                    <tr>
+                        <td colspan="5"><div class="border px-4 py-2 task-name text-gray-500 text-sm">No result found</div></td>
+                    </tr>
+                    @endforelse
                 </tbody>
             </table>
             <div class="my-4">{{ $tasks->links() }}</div>

@@ -20,33 +20,35 @@ class StartTask extends Component
 {
     // use WithPagination;
 
-    public $task_id, $keyword, $multidimensional_diff, $images;
+    public $task_id, $keyword, $multidimensional_diff, $images, $resultMessage;
     public $show = false;
     public $queryFields = [];
     public $imageIds = [];
     public $imageStocks = [];
     public $removeImageStocks = [];
 
-    protected $privateKey;
-    protected $publicKey;
     public $search;
-    public $page;
-    public $records;
-    public $nextPageUrl;
-    public $previousPageUrl;
-
-    function __construct()
-    {
-        $this->privateKey = env('STORYBLOCK_PRIVATE_KEY');
-        $this->publicKey = env('STORYBLOCK_PUBLIC_KEY');
-    }
+    public $page = 1;
+    public $perPage = 10;
+    public $totalPage;
+    public $previousBtnDisable;
+    public $nextBtnDisable;
 
     public function mount($id)
     {
         $this->task_id = $id;
         $this->queryFields['orientation'] = 'horizontal';
-        $this->queryFields['page'] = $this->page;
         $this->images = [];
+        if ($this->page == 1) {
+            $this->previousBtnDisable = 'disabled';
+        } else {
+            $this->previousBtnDisable = '';
+        }
+        if ($this->totalPage == 1) {
+            $this->nextBtnDisable = 'disabled';
+        } else {
+            $this->nextBtnDisable = '';
+        }
     }
 
     public function render()
@@ -54,6 +56,34 @@ class StartTask extends Component
         $task = Task::find($this->task_id);
         $setting = Setting::first();
         return view('livewire.staff.start-task', ['task' => $task, 'setting' => $setting]);
+    }
+
+    public function previous()
+    {
+        if ($this->page > 1) {
+            $this->page--;
+            $this->nextBtnDisable = '';
+        } else {
+            $this->page = 1;
+        }
+        if ($this->page == 1) {
+            $this->previousBtnDisable = 'disabled';
+        }
+        $this->queryFields['page'] = $this->page;
+        $this->searchImage();
+    }
+
+    public function next()
+    {
+        if ($this->page < $this->totalPage) {
+            $this->page++;
+            $this->previousBtnDisable = '';
+        }
+        if ($this->page == $this->totalPage) {
+            $this->nextBtnDisable = 'disabled';
+        }
+        $this->queryFields['page'] = $this->page;
+        $this->searchImage();
     }
 
     public function searchImage()
@@ -69,8 +99,8 @@ class StartTask extends Component
 
             $this->queryFields['query'] = $this->keyword;
             $this->queryFields['sort'] = 'popular';
-            $this->queryFields['limit'] = 12;
-
+            $this->queryFields['per_page'] = $this->perPage;
+            
             $options = [
                 CURLOPT_URL => "https://api.shutterstock.com/v2/images/search?" . http_build_query($this->queryFields),
                 CURLOPT_USERAGENT => "php/curl",
@@ -85,31 +115,30 @@ class StartTask extends Component
             $response = curl_exec($handle);
             curl_close($handle);
 
-            $decodedResponse = json_decode($response);
-            $images = [];
-            foreach ($decodedResponse->data as $image) {
-                $images[] = [
-                    'id' => $image->id,
-                    'title' => $image->description,
-                    'previewUrl' => $image->assets->preview->url,
-                    'thumbnailUrl' => $image->assets->large_thumb->url,
-                ];
+            $decodedResponse = json_decode($response, true);
+            $this->images = $decodedResponse['data'];
+            $this->totalPage = ceil($decodedResponse['total_count'] / $decodedResponse['per_page']);
+            
+            if (!$this->images) {
+                $this->resultMessage = 'No result found.';
+            } else {
+                $this->resultMessage = '';
             }
-            $this->images = $images;
         } else if ($setting->source_api == 'https://www.storyblocks.com') {
             $privateKey = env('STORYBLOCK_PRIVATE_KEY');
             $publicKey = env('STORYBLOCK_PUBLIC_KEY');
-            $projectId = env('PROJECT_ID');
-            $userId = env('USER_ID');
+            $projectId = env('STORYBLOCK_PROJECT_ID');
+            $userId = env('STORYBLOCK_USER_ID');
             $expires = time() + 100;
 
-            $this->queryFields['APIKEY'] = $this->publicKey;
+            $this->queryFields['APIKEY'] = $publicKey;
             $this->queryFields['EXPIRES']
                 = $expires;
             $this->queryFields['HMAC'] = $this->getToken($expires);
             $this->queryFields['project_id'] = $projectId;
             $this->queryFields['user_id'] =  $userId;
             $this->queryFields['keywords'] = $this->keyword;
+            $this->queryFields['results_per_page'] = $this->perPage;
 
             $curl = curl_init();
 
@@ -123,18 +152,16 @@ class StartTask extends Component
 
             curl_close($curl);
 
-            $decodedResponse = json_decode($response);
-            $images = [];
-            foreach ($decodedResponse->results as $image) {
-                $images[] = [
-                    'id' => $image->id,
-                    'title' => $image->title,
-                    'previewUrl' => $image->preview_url,
-                    'thumbnailUrl' => $image->thumbnail_url,
-                ];
-            }
+            $decodedResponse = json_decode($response, true);
 
-            $this->images = $images;
+            $this->images = $decodedResponse['results'];
+            $this->totalPage = ceil($decodedResponse['total_results'] / $this->perPage);
+            
+            if (!$this->images) {
+                $this->resultMessage = 'No result found.';
+            } else {
+                $this->resultMessage = '';
+            }
         }
     }
 
@@ -160,7 +187,6 @@ class StartTask extends Component
             $resource = "/api/v2/images/search";
         }
 
-
         $hmac = hash_hmac("sha256", $resource, $privateKey . $expire);
         return $hmac;
     }
@@ -176,7 +202,7 @@ class StartTask extends Component
         array_push($this->imageStocks, $this->imageIds);
         $this->imageStocks = array_map("unserialize", array_unique(array_map("serialize", $this->imageStocks)));
     }
-
+    
     public function removeImage($imageId, $title, $preview, $thumbnail)
     {
         $this->imageIds['user_id'] = Auth::user()->id;
@@ -192,11 +218,11 @@ class StartTask extends Component
     public function store()
     {
         $task = Task::find($this->task_id);
+        $setting = Setting::first();
 
         if (count($this->imageStocks) <= 0) {
             $this->show = true;
             session()->flash('error', 'Please select images');
-            // return false;
         } else if (count($this->imageStocks) < $task->no_of_images) {
             session()->flash('error', 'Please select more images');
         } else if (count($this->imageStocks) > $task->no_of_images) {
@@ -206,7 +232,7 @@ class StartTask extends Component
 
             $staffTask = StaffTask::updateOrCreate(['user_id' => Auth::user()->id, 'task_id' => $this->task_id], [
                 'is_completed' => 1,
-                'source' => 'shutter stock',
+                'source' => $setting->source_name,
             ]);
             if ($staffTask) {
                 session()->flash('success', 'Task completed.');
