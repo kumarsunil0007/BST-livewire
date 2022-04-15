@@ -60,18 +60,18 @@
             <table class="table-fixed w-full">
                 <thead>
                     <tr class="bg-gray-100 text-left">
-                        <th class="px-4 py-2 font-medium text-sm text-left">Task Name</th>
-                        <th class="px-4 py-2 font-medium text-sm">No. of images</th>
+                        <th class="px-4 py-2 font-medium text-sm text-left w-60">Task Name</th>                        
                         <th class="px-4 py-2 font-medium text-sm">Description</th>
-                        <th class="px-4 py-2 font-medium text-sm text-left">Action</th>
+                        <th class="px-4 py-2 font-medium text-sm w-48">No. of images</th>
+                        <th class="px-4 py-2 font-medium text-sm text-left w-48">Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse ($my_tasks->tasks as $task)
                         <tr>
-                            <td class="border px-4 py-2 text-gray-500 text-sm task-name">{{ $task->name }}</td>
+                            <td class="border px-4 py-2 truncate text-gray-500 text-sm task-name">{{ $task->name }}</td>                            
+                            <td class="border px-4 py-2 truncate text-gray-500 text-sm">{{ Str::limit($task->description, 150, '...') }}</td>
                             <td class="border px-4 py-2 text-gray-500 text-sm">{{ $task->no_of_images }}</td>
-                            <td class="border px-4 py-2 text-gray-500 text-sm">{{ Str::limit($task->description, 50, '...') }}</td>
                             <td class="border px-4 py-2 text-gray-500 text-sm">
                                 @if ($task->pivot->is_completed == 1)
                                     <span

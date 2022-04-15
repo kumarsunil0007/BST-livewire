@@ -62,20 +62,20 @@
             <table class="table-fixed w-full">
                 <thead>
                     <tr class="bg-gray-100 text-left">
-                        <th class="px-4 py-2 font-medium text-sm">Task Name</th>
-                        <th class="px-4 py-2 font-medium text-sm">No. of images</th>
+                        <th class="px-4 py-2 font-medium text-sm w-60" >Task Name</th>                        
                         <th class="px-4 py-2 font-medium text-sm">Description</th>
-                        <th class="px-4 py-2 font-medium text-sm">Status</th>
-                        <th class="px-4 py-2 font-medium text-sm">Actions</th>
+                        <th class="px-4 py-2 font-medium text-sm w-48">No. of images</th>
+                        <th class="px-4 py-2 font-medium text-sm w-48">Status</th>
+                        <th class="px-4 py-2 font-medium text-sm w-48">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($tasks as $task)
                         <tr>
-                            <td class="border px-4 py-2 task-name text-gray-500 text-sm">{{ $task->name }}</td>
-                            <td class="border px-4 py-2 text-gray-500 text-sm">{{ $task->no_of_images }}</td>
-                            <td class="border px-4 py-2 text-gray-500 text-sm">
+                            <td class="border px-4 py-2 task-name truncate text-gray-500 text-sm">{{ $task->name }}</td>                            
+                            <td class="border px-4 py-2 truncate text-gray-500 text-sm">
                                 {{ Str::limit($task->description, 150, '...') }}</td>
+                            <td class="border px-4 py-2 text-gray-500 text-sm">{{ $task->no_of_images }}</td>
                             <td class="border px-4 py-2 text-gray-500 text-sm">
                                 {{ $task->taskStatus ? ($task->taskStatus->is_completed == 0 ? 'In progress' : 'Completed') : 'No started yet' }}
                             </td>

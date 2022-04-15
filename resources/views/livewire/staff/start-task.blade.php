@@ -69,35 +69,36 @@
                     </div>
                 </div>
             @endif
-            <div class="md:flex md:items-center mb-4 mt-4">
+            <div class="md:flex items-start mb-4 mt-4">
                 <div class="md:w-1/2 px-3 mb-6 md:mb-0">
-                    <label class="block text-gray-500 font-medium md:text-left text-sm mb-1 md:mb-3 pr-4">Task Name :
-                        <strong>{{ ucwords($task->name) }}</strong> </label>
+                    <label class="block text-gray-500 font-medium md:text-left text-sm mb-1 md:mb-3 pr-4"><strong>Task Name :
+                    </strong>{{ ucwords($task->name) }} </label>
                 </div>
 
                 <div class="md:w-1/2 px-3 mb-6 md:mb-0">
-                    <label class="block text-gray-500 font-medium md:text-left text-sm mb-1 md:mb-3 pr-4">No. of images
-                        : <strong>{{ ucwords($task->no_of_images) }}</strong>
+                    <label class="block text-gray-500 font-medium md:text-left text-sm mb-1 md:mb-3 pr-4"><strong>No. of images
+                        : </strong>{{ ucwords($task->no_of_images) }}
                     </label>
                 </div>
+                
+            </div>
+            <div class="md:flex items-start mb-4 mt-4">
                 <div class="md:w-1/2 px-3 mb-6 md:mb-0">
                     <label class="block text-gray-500 font-medium md:text-left text-sm mb-1 md:mb-3 pr-4"
-                        for="inline-full-name">Status : <span
+                        for="inline-full-name"><strong>Status :</strong> <span
                             class="inline-flex items-center justify-center px-2 py-1 text-sm font-medium leading-none text-white bg-dark-blue rounded-full">{{ $task->taskStatus->is_completed == 0 ? 'In progress' : 'Completed' }}</span></label>
                 </div>
                 <div class="md:w-1/2 px-3 mb-6 md:mb-0">
-                    <label class="block text-gray-500 font-medium md:text-left text-sm mb-1 md:mb-3 pr-4">Image Provider
-                        : <strong>{{ $task->taskStatus ? ucwords($task->taskStatus->source) : 'N/A' }}</strong>
+                    <label class="block text-gray-500 font-medium md:text-left text-sm mb-1 md:mb-3 pr-4"><strong>Image Provider
+                        : </strong>{{ $task->taskStatus ? ucwords($task->taskStatus->source) : 'N/A' }}
                     </label>
-
-
                 </div>
             </div>
-            <div class="md:flex md:items-center mb-4">
+            <div class="md:flex items-start mb-4">
 
                 <div class="w-full px-3 mb-6 md:mb-0">
-                    <label class="block text-gray-500 font-medium md:text-left text-sm mb-1 md:mb-3 pr-4">Description :
-                        <strong>{{ ucwords($task->description) }}</strong>
+                    <label class="block text-gray-500 font-medium md:text-left text-sm mb-1 md:mb-3 pr-4"><strong>Description :
+                    </strong>{{ ucwords($task->description) }}
                     </label>
                 </div>
             </div>
@@ -108,23 +109,23 @@
                         <div class="flex justify-between table-heading">
                             <h5
                                 class="flex justify-start items-start text-lg font-bold text-gray-700 bg-gray-100 py-2 w-full px-3">
-                                Search
-                                Collection</h5>
+                                Search Collection</h5>
                         </div>
                         <hr>
-                        <div class="flex justify-center mt-5 pt-5">
-                            <div class="mb-4">
+                        <div class="my-4 pt-5 ">
+                            <div class="md:flex justify-center items-center mb-4 mt-4">
                                 <input type="search"
-                                    class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none"
+                                    class="appearance-none border border-r-0 rounded-l-md w-1/3 py-2 px-3 text-gray-700 leading-tight focus:outline-none"
                                     id="search" placeholder="Enter Keyword" wire:model.defer="keyword">
                                 @error('keyword')
                                     <span class="text-red-500 text-sm mt-2">{{ $message }}</span>
                                 @enderror
-                            </div>
-                            <button wire:click.prevent="searchImage()" type="button" @click="open = true"
-                                class="inline-flex ml-3 justify-center w-full rounded-md border bg-dark-blue border-gray-300 px-8 py-2 bg-white text-white leading-6 font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:border-blue-300  transition ease-in-out duration-150 sm:text-sm sm:leading-5 w-12 h-10 ms-2">
+                                <button wire:click.prevent="searchImage()" type="button" @click="open = true"
+                                class="inline-flex justify-center w-full rounded-r-md border bg-dark-blue border-gray-300 w-20 px-8 py-2 bg-white text-white leading-6 font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:border-blue-300  transition ease-in-out duration-150 sm:text-sm sm:leading-5 w-12 h-10 ms-2">
                                 Search
                             </button>
+                            </div>
+                            
                         </div>
                     </div>
                     {{-- Image List --}}
@@ -152,30 +153,31 @@
                     </section>
 
                     <section class="overflow-hidden text-gray-700 ">
-                        <div class="container px-2 py-2 mx-auto ">
+                        <div class="container px-2 py-2 mx-auto ">                        
+
                             <div class="flex flex-wrap -m-1 md:-m-2">
                                 @if ($setting->source_api == 'https://www.shutterstock.com')
                                     @forelse ($images as $image)
-                                        <a href="javascript:void(0)"
+                                            <a href="javascript:void(0)"
                                             wire:click="selectImage({{ $image['id'] }},'{{ $image['title'] }}','{{ $image['previewUrl'] }}','{{ $image['thumbnailUrl'] }}')"
-                                            class="flex flex-wrap w-1/4 border-solid border-2 mr-3 mb-5 search-images">
-                                            <div class="p-1 md:p-2">
-                                                <img alt="gallery" class="block object-cover object-center rounded-lg"
+                                            class="flex flex-wrap w-1/5  mb-5 search-images">
+                                                <div class="flex p-1 md:p-2 w-full ">
+                                                    <img alt="gallery" class="border block object-cover object-center rounded-lg w-full"
                                                     src="{{ $image['thumbnailUrl'] }}">
-                                            </div>
-                                        </a>
+                                                </div>
+                                            </a>
                                     @empty
                                     @endforelse
                                 @elseif ($setting->source_api == 'https://www.storyblocks.com')
                                     @forelse ($images as $image)
-                                        <a href="javascript:void(0)"
+                                            <a href="javascript:void(0)"
                                             wire:click="selectImage({{ $image['id'] }},'{{ $image['title'] }}','{{ $image['previewUrl'] }}','{{ $image['thumbnailUrl'] }}')"
-                                            class="flex flex-wrap w-1/4 border-solid border-2 mr-3 mb-5 search-images">
-                                            <div class=" p-1 md:p-2">
-                                                <img alt="gallery" class="block object-cover object-center rounded-lg"
+                                            class="flex flex-wrap w-1/5  mb-5 search-images">
+                                                <div class="flex p-1 md:p-2 w-full">
+                                                    <img alt="gallery" class="block border object-cover object-center rounded-lg w-full"
                                                     src="{{ $image['thumbnailUrl'] }}">
-                                            </div>
-                                        </a>
+                                                </div>
+                                            </a>
                                     @empty
                                     @endforelse
                                 @endif
