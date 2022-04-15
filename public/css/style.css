@@ -27,9 +27,9 @@ body{
 .table-heading h4 {
     font-size: 22px;
 }
-.search-images:focus img {
+.search-images:focus img{
     box-shadow: 0px 0px 4px 2px #ddd;
-    border: 1px solid #6875f5;
+    border: 1px solid #061395;
 }
 .remove-image {
     background: #000;
@@ -51,3 +51,5 @@ body{
 .login-form label{
     font-family: 'Poppins', sans-serif;
 }
+.border-r-0{border-right-width: 0;}
+.w-1\/5{width: 20%}
